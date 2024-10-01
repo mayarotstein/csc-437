@@ -1,0 +1,18 @@
+body {
+    background-color: var(--color-background-page);
+    color: var(--color-text-body);
+}
+header{
+    background-color: var(--color-background-header);
+    color: var(--color-text-header);
+}
+
+body a {
+    color: currentColor;
+}
+body a:hover {
+    color: var( --color-link-hover);
+}
+li strong {
+    color: var( --color-strong-text);
+}

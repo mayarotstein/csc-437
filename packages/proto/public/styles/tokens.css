@@ -1,0 +1,8 @@
+:root {
+    --color-background-page: rgb(248, 241, 227);
+    --color-background-header: #af833d;
+    --color-text-body: #333;
+    --color-text-header: rgb(239, 220, 193);
+    --color-link-hover: rgb(218, 163, 76);
+    --color-strong-text: var(--color-link-hover);
+}
