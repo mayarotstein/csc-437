@@ -3,6 +3,10 @@ body {
     color: var(--color-text-body);
 }
 header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: var(--size-spacing-medium);
     background-color: var(--color-background-header);
     color: var(--color-text-header);
 }
@@ -19,11 +23,6 @@ header img {
     object-position:var(--banner-position);
     display: var(banner-display);
 }
-
-img {
-    max-width: 100%;
-}
-
 body {
     font-family: var(--font-family-body);
 
@@ -36,7 +35,7 @@ body a:hover {
 }
 
 li strong {
-    color: var( --color-strong-text);
+    color: var(--color-text-list-strong);
 }
 h1 {
     font-family: var(--font-family-display);
@@ -60,4 +59,20 @@ svg.icon {
     width: 2em;
     vertical-align: top;
     fill: currentColor;
-  }
+}
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+.page > header {
+    flex-basis: min-content;
+}
+section {
+    flex-basis: 100%;
+    overflow: auto;
+    margin: 0;
+    padding: 0.5rem;
+}
+    

@@ -1,11 +1,11 @@
 :root {
     /* tokens from lab 3 colors */
-    --color-background-page: rgb(248, 241, 227);
-    --color-background-header: #af833d;
+    --color-background-page: #d8d6d0;
+    --color-background-header: #36404A;
     --color-text-body: #333;
-    --color-text-header: rgb(239, 220, 193);
-    --color-link-hover: rgb(218, 163, 76);
-    --color-strong-text: var(--color-link-hover);
+    --color-text-header: #a6aeb7;
+    --color-text-list-strong: #748598;
+    --color-link-hover: #a6aeb7;
 
     /* tokens from lab 4 type */
     --font-family-display: Lexend Deca, Futura, Gill Sans, sans serif;
@@ -32,6 +32,11 @@
 
     --banner-height-small: 200px;
 
+    /*tokens from lab 5*/
+    --size-spacing-small: 0.25rem;
+    --size-spacing-medium: 0.5rem;
+    --size-spacing-large: 1rem;
+    --size-spacing-xlarge: 2rem;
 
 
 }
