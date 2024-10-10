@@ -38,5 +38,16 @@
     --size-spacing-large: 1rem;
     --size-spacing-xlarge: 2rem;
 
+    --grid-gap: 1rem;
+    --grid-columns: 1fr 1fr;
+    --grid-container-padding: 2rem;
+    --grid-max-width: 1200px;
+
+    --card-background-color: rgba(255, 255, 255, 0.609);
+    --card-border-color: 1px solid #cccccc;
+    --card-border-radius: 8px;
+    --size-card-padding: 1rem;
+    --size-card-gap: var(--size-spacing-medium);
+    --img-border-radius:10px;
 
 }

@@ -9,6 +9,7 @@ header{
     padding: var(--size-spacing-medium);
     background-color: var(--color-background-header);
     color: var(--color-text-header);
+    flex-direction: column;
 }
 
 header h1 {
@@ -16,13 +17,7 @@ header h1 {
     font-size: var(--size-type-xxxlarge);
     font-weight: var(--font-weight-light);
 }
-header img {
-    width: 100%;
-    height: var(--banner-height-large);
-    object-fit: var(--banner-fit);
-    object-position:var(--banner-position);
-    display: var(banner-display);
-}
+
 body {
     font-family: var(--font-family-body);
 
@@ -53,6 +48,9 @@ p em {
     font-style: var(--font-italic-body);
     font-weight: var(--font-weight-medium);
 }
+p {
+    font-size: var(--size-type-medium);
+}
 svg.icon {
     display: inline;
     height: 2em;
@@ -70,9 +68,65 @@ svg.icon {
     flex-basis: min-content;
 }
 section {
-    flex-basis: 100%;
+    flex-basis: auto;
     overflow: auto;
     margin: 0;
     padding: 0.5rem;
 }
-    
+section.main-page {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: var(--grid-gap);
+    padding: var(--grid-container-padding);
+    max-width: var(--grid-max-width);
+    margin: auto;
+    text-align: center;
+}
+img {
+    width: 100vw;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: var(--img-border-radius);
+}
+section {
+    display: grid;
+    grid-template-columns: var(--grid-columns);
+    grid-gap: var(--grid-gap);
+    padding: var(--grid-container-padding);
+    max-width: var(--grid-max-width);
+    align-items: stretch;
+
+}
+
+section h1 {
+    grid-column: 1 / -1;
+    font-size: var(--size-type-xlarge);
+
+
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: var(--card-border-color);
+    border-radius: var(--card-border-radius);
+    padding: var(--size-spacing-medium);
+    background-color: var(--card-background-color);
+    gap: var(--size-spacing-medium);
+    flex-grow: 1;
+}
+@media (max-width: 768px) {
+    section {
+        grid-template-columns: 1fr; /* Change to one column */
+    }
+
+    img {
+        width: 100%; /* Ensure the image fits within the card in one column layout */
+    }
+
+    .card {
+        margin-bottom: var(--size-spacing-large); /* Add spacing between cards */
+    }
+}
