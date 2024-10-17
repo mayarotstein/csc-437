@@ -1,4 +1,6 @@
 import { css, html, shadow } from "@calpoly/mustang";
+import reset from "./styles/reset.css.js";
+
 
 export class SloFoodHeaderElement extends HTMLElement {
     static template = html`
@@ -30,7 +32,7 @@ export class SloFoodHeaderElement extends HTMLElement {
     }
     
     nav p {
-        color: var(--color-text-body);
+        color: var(--color-text-header);
         margin: var(--size-spacing-small);
   `;
 
@@ -38,6 +40,6 @@ export class SloFoodHeaderElement extends HTMLElement {
     super();
     shadow(this)
       .template(SloFoodHeaderElement.template)
-      .styles(SloFoodHeaderElement.styles);
+      .styles(reset.styles, SloFoodHeaderElement.styles);
   }
 }

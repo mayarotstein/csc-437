@@ -13,12 +13,28 @@
         <link rel="stylesheet" href="/styles/page.css"/>
         <link rel="stylesheet" href="/styles/tokens.css">
         <link rel="stylesheet" href="/styles/reset.css"/>
+        
+        <script type="importmap">
+            {
+              "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+              }
+            }
+        </script>
+        <script type="module">
+            import { define } from "@calpoly/mustang";
+            import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
+          
+            define({
+              "slo-food-header": SloFoodHeaderElement
+            });
+        </script>
 
     </head>
     <body class="page">
-        <header>
-            <h1>San Luis Obispo Food Guide</h1>
-        </header>
+        <slo-food-header>
+            <span slot="title">San Luis Obispo Food Guide</span>
+        </slo-food-header>
         <section class="main-page">
             <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
             <p>Discover the best food and drink options in SLO, whether you're in the mood for meals, snacks, or beverages!</p>
