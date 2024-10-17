@@ -50,4 +50,21 @@
     --size-card-gap: var(--size-spacing-medium);
     --img-border-radius:10px;
 
+    /*tokens for new explore button*/
+    --color-button-background: #162a4a;
+    --color-button-text: #d8d6d0;
+    --color-button-hover: rgb(107, 109, 145);
+
+    /*tokens for dark mode*/
+    body.dark-mode {
+        --color-background-page: #162a4a;
+        --color-background-header: #6c7d8f;
+        --color-text-header: #e6eef8;
+        --color-text: #e9e8e2;
+        --card-background-color: rgba(255, 255, 255, 0.609);
+        --color-text-list-strong: #d8d6d0;
+        --color-text-control-inverted: var(--color-background-page);
+      }
+      
+
 }

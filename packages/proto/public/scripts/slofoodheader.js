@@ -6,10 +6,14 @@ export class SloFoodHeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header>
-            <h1><slot name="title"></slot></h1>
-            <nav>
-            <p><slot name="nav"></slot></p>
-            </nav>
+                <h1><slot name="title"></slot></h1>
+                <nav>
+                    <p><slot name="nav"></slot></p>
+                </nav>
+                <label>
+                    <input type="checkbox" autocomplete="off"/>
+                    <slot name="dark-mode"></slot>
+                </label>
             </header>
         </template>
   `;
@@ -42,4 +46,5 @@ export class SloFoodHeaderElement extends HTMLElement {
       .template(SloFoodHeaderElement.template)
       .styles(reset.styles, SloFoodHeaderElement.styles);
   }
+  
 }
