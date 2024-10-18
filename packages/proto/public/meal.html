@@ -14,18 +14,32 @@
         <link rel="stylesheet" href="/styles/tokens.css">    
         <link rel="stylesheet" href="/styles/reset.css"/>
 
+        <script type="importmap">
+            {
+              "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+              }
+            }
+        </script>
+        <script type="module">
+            import { define } from "@calpoly/mustang";
+            import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
+          
+            define({
+              "slo-food-header": SloFoodHeaderElement
+            });
+        </script>
+
     </head>
     <body class="page">
-        <header>
-            <h1>San Luis Obispo Food Guide</h1>
-            <nav>
-                <p>
-                    <a href="index.html">Home</a> > 
-                    <a href="restaurant.html">Restaurant</a> > 
-                    Meal            
-                </p>
-            </nav>    
-        </header>
+        <slo-food-header>
+            <span slot="title">San Luis Obispo Food Guide</span>
+            <span slot="nav">
+              <a href="index.html">Home</a> > 
+              <a href="restaurant.html">Restaurant</a> > 
+              Meal
+            </span>
+        </slo-food-header>
         <section>
             <div class="card">
                 <h1>Low-Cost Meals in San Luis Obispo</h1>

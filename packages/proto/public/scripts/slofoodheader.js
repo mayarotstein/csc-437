@@ -1,13 +1,19 @@
 import { css, html, shadow } from "@calpoly/mustang";
+import reset from "./styles/reset.css.js";
+
 
 export class SloFoodHeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header>
-            <h1><slot name="title"></slot></h1>
-            <nav>
-            <p><slot name="nav"></slot></p>
-            </nav>
+                <h1><slot name="title"></slot></h1>
+                <nav>
+                    <p><slot name="nav"></slot></p>
+                </nav>
+                <label>
+                    <input type="checkbox" autocomplete="off"/>
+                    <slot name="dark-mode"></slot>
+                </label>
             </header>
         </template>
   `;
@@ -30,7 +36,7 @@ export class SloFoodHeaderElement extends HTMLElement {
     }
     
     nav p {
-        color: var(--color-text-body);
+        color: var(--color-text-header);
         margin: var(--size-spacing-small);
   `;
 
@@ -38,6 +44,7 @@ export class SloFoodHeaderElement extends HTMLElement {
     super();
     shadow(this)
       .template(SloFoodHeaderElement.template)
-      .styles(SloFoodHeaderElement.styles);
+      .styles(reset.styles, SloFoodHeaderElement.styles);
   }
+  
 }
