@@ -11,6 +11,7 @@ export class SloFoodHeaderElement extends HTMLElement {
                     <p><slot name="nav"></slot></p>
                 </nav>
                 <label>
+<<<<<<< HEAD
                     <input type="checkbox" id="dark-mode-toggle" autocomplete="off" 
                         onchange="this.dispatchEvent(new CustomEvent('darkmode:toggle', {
                             bubbles: true, 
@@ -19,6 +20,11 @@ export class SloFoodHeaderElement extends HTMLElement {
                         }))"
                     />
                     <slot name="dark-mode"></slot>
+=======
+                    <input type="checkbox" autocomplete="off"/>
+                    <slot name="dark-mode"></slot>
+                </label>
+>>>>>>> 0602c3a76663366bd40c61e1779456d65e0d63ab
             </header>
         </template>
   `;
