@@ -12,7 +12,8 @@ export class SloFoodHeaderElement extends HTMLElement {
                 </nav>
                 <label>
                     <input type="checkbox" id="dark-mode-toggle" autocomplete="off" 
-                        onchange="this.dispatchEvent(new CustomEvent('darkmode:toggle', {
+                        onchange="
+                        this.dispatchEvent(new CustomEvent('darkmode:toggle', {
                             bubbles: true, 
                             composed: true, 
                             detail: { checked: this.checked }
@@ -32,13 +33,14 @@ export class SloFoodHeaderElement extends HTMLElement {
         padding: var(--size-spacing-medium);
         background-color: var(--color-background-header);
         color: var(--color-text-header);
-    }
+        }
 
     h1 {
         flex-basis: 100%;
         font-family: var(--font-family-display);
         font-size: var(--size-type-xxxlarge);
         font-weight: var(--font-weight-light);
+
     }
     
     nav p {

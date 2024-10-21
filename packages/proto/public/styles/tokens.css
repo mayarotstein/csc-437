@@ -1,75 +1,71 @@
 :root {
-    /* tokens from lab 3 colors */
-    --color-background-page: #d8d6d0;
-    --color-background-header: #36404A;
-    --color-text-body: #333;
-    --color-text-header: #a6aeb7;
-    --color-text-list-strong: #748598;
-    --color-link-hover: #a6aeb7;
-
-    /* tokens from lab 4 type */
-    --font-family-display: Lexend Deca, Futura, Gill Sans, sans serif;
-    --font-family-body: Playfair Display, Lucida Bright, Georgia, serif;
-
-    --size-type-body: 1rem;
-    --size-type-mlarge: 1.25rem;
-    --size-type-large: 1.5rem;
-    --size-type-xlarge: 2rem;
-    --size-type-xxlarge: 2.5rem;
-    --size-type-xxxlarge: 3rem;
-
-    --font-weight-light: 200;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-bold: 700;
-
-    --font-italic-body: italic;
-
-    --banner-height-large: 400px;
-    --banner-position: 50% 60%;
-    --banner-display: block;
-    --banner-fit: cover;
-
-    --banner-height-small: 200px;
-
-    /*tokens from lab 5*/
-    --size-spacing-small: 0.25rem;
-    --size-spacing-medium: 0.5rem;
-    --size-spacing-large: 1rem;
-    --size-spacing-xlarge: 2rem;
-
-    --grid-gap: 1rem;
-    --grid-columns: 1fr 1fr;
-    --grid-container-padding: 2rem;
-    --grid-max-width: 1200px;
-
-    --card-background-color: rgba(255, 255, 255, 0.609);
-    --card-border-color: 1px solid #cccccc;
-    --card-border-radius: 8px;
-    --size-card-padding: 1rem;
-    --size-card-gap: var(--size-spacing-medium);
-    --img-border-radius:10px;
-
-    /*tokens for new explore button*/
-    --color-button-background: #162a4a;
-    --color-button-text: #d8d6d0;
-    --color-button-hover: rgb(107, 109, 145);
-
-    /*tokens for dark mode*/
-    body.dark-mode {
-        --color-background-page: #162a4a;
-        --color-background-header: #6c7d8f;
-        --color-text-header: #e6eef8;
-<<<<<<< HEAD
-        --color-text-body: #e9e8e2;
-        --card-background-color: #31548d;
-=======
-        --color-text: #e9e8e2;
+        /* tokens from lab 3 colors */
+        --color-background-page: #d8d6d0;
+        --color-background-header: #36404A;
+        --color-text-body: #333;
+        --color-text-h1:#333;
+        --color-text-header: #a6aeb7;
+        --color-text-list-strong: #748598;
+        --color-link-hover: #a6aeb7;
+    
+        /* tokens from lab 4 type */
+        --font-family-display: Lexend Deca, Futura, Gill Sans, sans serif;
+        --font-family-body: Playfair Display, Lucida Bright, Georgia, serif;
+    
+        --size-type-body: 1rem;
+        --size-type-mlarge: 1.25rem;
+        --size-type-large: 1.5rem;
+        --size-type-xlarge: 2rem;
+        --size-type-xxlarge: 2.5rem;
+        --size-type-xxxlarge: 3rem;
+    
+        --font-weight-light: 200;
+        --font-weight-normal: 400;
+        --font-weight-medium: 500;
+        --font-weight-bold: 700;
+    
+        --font-italic-body: italic;
+    
+        --banner-height-large: 400px;
+        --banner-position: 50% 60%;
+        --banner-display: block;
+        --banner-fit: cover;
+    
+        --banner-height-small: 200px;
+    
+        /*tokens from lab 5*/
+        --size-spacing-small: 0.25rem;
+        --size-spacing-medium: 0.5rem;
+        --size-spacing-large: 1rem;
+        --size-spacing-xlarge: 2rem;
+    
+        --grid-gap: 1rem;
+        --grid-columns: 1fr 1fr;
+        --grid-container-padding: 2rem;
+        --grid-max-width: 1200px;
+    
         --card-background-color: rgba(255, 255, 255, 0.609);
->>>>>>> 0602c3a76663366bd40c61e1779456d65e0d63ab
-        --color-text-list-strong: #d8d6d0;
-        --color-text-control-inverted: var(--color-background-page);
-      }
-      
+        --card-border-color: 1px solid #cccccc;
+        --card-border-radius: 8px;
+        --size-card-padding: 1rem;
+        --size-card-gap: var(--size-spacing-medium);
+        --img-border-radius:10px;
+    
+        /*tokens for new explore buttons*/
+        --color-button-background: #162a4a;
+        --color-button-text: #d8d6d0;
+        --color-button-hover: rgb(107, 109, 145);
 
-}
+        /*tokens for dark mode*/
+        body.dark-mode {
+            --color-background-page: #162a4a;
+            --color-background-header: #6c7d8f;
+            --color-text-header: #e6eef8;
+            --color-text: #e9e8e2;
+            --card-background-color: rgba(255, 255, 255, 0.609);
+            --color-text-list-strong: #d8d6d0;
+            --color-text-control-inverted: var(--color-background-page);
+            --color-text-h1: #e9e8e2;
+          }
+          
+    }

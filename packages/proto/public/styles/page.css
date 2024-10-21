@@ -21,6 +21,7 @@ h1 {
     font-family: var(--font-family-display);
     font-size: var(--size-type-xlarge);
     font-weight: var(--font-weight-medium);
+    color: var(--color-text-h1);
 
 }
 h2{
