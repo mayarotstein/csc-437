@@ -11,9 +11,14 @@ export class SloFoodHeaderElement extends HTMLElement {
                     <p><slot name="nav"></slot></p>
                 </nav>
                 <label>
-                    <input type="checkbox" autocomplete="off"/>
+                    <input type="checkbox" id="dark-mode-toggle" autocomplete="off" 
+                        onchange="this.dispatchEvent(new CustomEvent('darkmode:toggle', {
+                            bubbles: true, 
+                            composed: true, 
+                            detail: { checked: this.checked }
+                        }))"
+                    />
                     <slot name="dark-mode"></slot>
-                </label>
             </header>
         </template>
   `;
@@ -22,14 +27,15 @@ export class SloFoodHeaderElement extends HTMLElement {
     header{
         display: flex;
         align-items: baseline;
+        flex-wrap: wrap;
         justify-content: space-between;
         padding: var(--size-spacing-medium);
         background-color: var(--color-background-header);
         color: var(--color-text-header);
-        flex-direction: column;
     }
 
     h1 {
+        flex-basis: 100%;
         font-family: var(--font-family-display);
         font-size: var(--size-type-xxxlarge);
         font-weight: var(--font-weight-light);
@@ -38,6 +44,8 @@ export class SloFoodHeaderElement extends HTMLElement {
     nav p {
         color: var(--color-text-header);
         margin: var(--size-spacing-small);
+    }
+    
   `;
 
   constructor() {
