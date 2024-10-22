@@ -53,7 +53,7 @@
     
         /*tokens for new explore buttons*/
         --color-button-background: #162a4a;
-        --color-button-text: #d8d6d0;
+        --color-button-text: #ffffff;
         --color-button-hover: rgb(107, 109, 145);
 
         /*tokens for dark mode*/
@@ -61,11 +61,15 @@
             --color-background-page: #162a4a;
             --color-background-header: #6c7d8f;
             --color-text-header: #e6eef8;
-            --color-text: #e9e8e2;
-            --card-background-color: rgba(255, 255, 255, 0.609);
+            --color-text-body: #ffffff;
+            --card-background-color: rgb(165, 164, 164);
             --color-text-list-strong: #d8d6d0;
             --color-text-control-inverted: var(--color-background-page);
             --color-text-h1: #e9e8e2;
+            --color-button-background: rgb(107, 109, 145);
+            --color-button-hover: rgb(82, 84, 112);
+            --color-text-list-strong: #162a4a;
+          
           }
           
     }

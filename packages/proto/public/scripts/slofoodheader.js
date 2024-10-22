@@ -11,15 +11,9 @@ export class SloFoodHeaderElement extends HTMLElement {
                     <p><slot name="nav"></slot></p>
                 </nav>
                 <label>
-                    <input type="checkbox" id="dark-mode-toggle" autocomplete="off" 
-                        onchange="
-                        this.dispatchEvent(new CustomEvent('darkmode:toggle', {
-                            bubbles: true, 
-                            composed: true, 
-                            detail: { checked: this.checked }
-                        }))"
-                    />
+                    <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
                     <slot name="dark-mode"></slot>
+                </label>
             </header>
         </template>
   `;
@@ -55,6 +49,23 @@ export class SloFoodHeaderElement extends HTMLElement {
     shadow(this)
       .template(SloFoodHeaderElement.template)
       .styles(reset.styles, SloFoodHeaderElement.styles);
+
+      const toggle = this.shadowRoot.querySelector('input[type="checkbox"]');
+
+                toggle.addEventListener("change", (event) => {
+                    relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
+                });
   }
   
+}
+function relayEvent(event, eventName, detail) {
+    event.stopPropagation();
+
+    const customEvent = new CustomEvent(eventName, {
+        bubbles: true,
+        detail,
+        composed: true,
+    });
+
+    event.target.dispatchEvent(customEvent);
 }

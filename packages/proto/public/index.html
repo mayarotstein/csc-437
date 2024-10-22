@@ -34,10 +34,7 @@
     <body class="page">
         <slo-food-header>
             <span slot="title">San Luis Obispo Food Guide</span>
-<<<<<<< HEAD
             <span slot="dark-mode"> Dark Mode</span>
-=======
->>>>>>> 0602c3a76663366bd40c61e1779456d65e0d63ab
         </slo-food-header>
         <section class="main-page">
             <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
@@ -52,28 +49,8 @@
             </p>
         </section>
         
+
         <script>
-            function relayEvent(event, eventName, detail) {
-                event.stopPropagation();
-
-                const customEvent = new CustomEvent(eventName, {
-                    bubbles: true,
-                    detail
-                });
-
-                event.target.dispatchEvent(customEvent);
-            }
-
-            const headerElement = document.querySelector('slo-food-header');
-            customElements.whenDefined('slo-food-header').then(() => {
-                const shadow = headerElement.shadowRoot;
-                const toggle = shadow.querySelector('input[type="checkbox"]');
-
-                toggle.addEventListener("change", (event) => {
-                    relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
-                });
-            });
-
             document.body.addEventListener("darkmode:toggle", (event) => {
                 const { checked } = event.detail;
                 document.body.classList.toggle("dark-mode", checked);

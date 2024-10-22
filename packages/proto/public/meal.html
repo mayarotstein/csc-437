@@ -86,29 +86,7 @@
             <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/> Extra Check
         </label>-->
 
-        
         <script>
-            function relayEvent(event, eventName, detail) {
-                event.stopPropagation();
-
-                const customEvent = new CustomEvent(eventName, {
-                    bubbles: true,
-                    detail
-                });
-
-                event.target.dispatchEvent(customEvent);
-            }
-
-            const headerElement = document.querySelector('slo-food-header');
-            customElements.whenDefined('slo-food-header').then(() => {
-                const shadow = headerElement.shadowRoot;
-                const toggle = shadow.querySelector('input[type="checkbox"]');
-
-                toggle.addEventListener("change", (event) => {
-                    relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
-                });
-            });
-
             document.body.addEventListener("darkmode:toggle", (event) => {
                 const { checked } = event.detail;
                 document.body.classList.toggle("dark-mode", checked);
