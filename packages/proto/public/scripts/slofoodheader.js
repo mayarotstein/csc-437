@@ -52,9 +52,9 @@ export class SloFoodHeaderElement extends HTMLElement {
 
       const toggle = this.shadowRoot.querySelector('input[type="checkbox"]');
 
-                toggle.addEventListener("change", (event) => {
-                    relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
-                });
+        toggle.addEventListener("change", (event) => {
+            relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
+        });
   }
   
 }
