@@ -23,7 +23,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_restaurant = require("./pages/restaurant");
-var import_restaurant_svc = require("services/restaurant-svc");
+var import_restaurant_svc = require("./services/restaurant-svc");
+var import_mongo = require("./services/mongo");
+(0, import_mongo.connect)("slofoodguide");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";

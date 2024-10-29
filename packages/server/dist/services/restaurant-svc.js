@@ -24,18 +24,17 @@ __export(restaurant_svc_exports, {
 module.exports = __toCommonJS(restaurant_svc_exports);
 const restaurants = {
   Meals: {
-    name: "Meals",
     category: "Meals",
     image: {
-      src: "images/meal.jpg",
+      src: "../images/meal.jpg",
       alt: "Explore Meals in SLO",
       width: 300,
       height: 200
     },
+    description: "Hungry for a full meal? Check out our selection of restaurants offering everything from low-cost bites to high-end gourmet dishes. There\u2019s something to satisfy every appetite.",
     link: "meal.html"
   },
   SmallBites: {
-    name: "Small Bites",
     category: "Small Bites",
     image: {
       src: "images/farmers.jpg",
@@ -46,7 +45,6 @@ const restaurants = {
     link: "small-bite.html"
   },
   Beverages: {
-    name: "Beverages",
     category: "Beverages",
     image: {
       src: "images/beverage.jpg",

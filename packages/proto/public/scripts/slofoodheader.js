@@ -57,7 +57,17 @@ export class SloFoodHeaderElement extends HTMLElement {
         });
   }
   
+  static initializeOnce() {
+    function toggleDarkMode(page, checked) {
+      page.classList.toggle("dark-mode", checked);
+    }
+
+    document.body.addEventListener("darkmode:toggle", (event) =>
+      toggleDarkMode(event.currentTarget, event.detail.checked)
+    );
+  }
 }
+
 function relayEvent(event, eventName, detail) {
     event.stopPropagation();
 
@@ -69,3 +79,5 @@ function relayEvent(event, eventName, detail) {
 
     event.target.dispatchEvent(customEvent);
 }
+
+

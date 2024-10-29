@@ -2,19 +2,18 @@ import { Restaurant, Header, Category } from "../models/restaurant";
 
 const restaurants = {
     Meals: {
-        name: "Meals",
         category: "Meals" as Category,
         image: {
-          src: "images/meal.jpg",
+          src: "../images/meal.jpg",
           alt: "Explore Meals in SLO",
           width: 300,
           height: 200,
         },
+        description:"Hungry for a full meal? Check out our selection of restaurants offering everything from low-cost bites to high-end gourmet dishes. There’s something to satisfy every appetite.",
         link: "meal.html"
       },
 
       SmallBites: {
-        name: "Small Bites",
         category: "Small Bites" as Category,
         image: {
           src: "images/farmers.jpg",
@@ -26,7 +25,6 @@ const restaurants = {
       },
 
       Beverages: {
-        name: "Beverages",
         category: "Beverages" as Category,
         image: {
           src: "images/beverage.jpg",

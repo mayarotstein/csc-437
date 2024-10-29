@@ -1,7 +1,10 @@
 // src/index.ts
 import express, { Request, Response } from "express";
 import { RestaurantPage } from "./pages/restaurant";
-import { getRestaurant, getHeaderData } from "services/restaurant-svc";
+import { getRestaurant, getHeaderData } from "./services/restaurant-svc";
+import { connect } from "./services/mongo";
+
+connect("slofoodguide");
 
 const app = express();
 const port = process.env.PORT || 3000;

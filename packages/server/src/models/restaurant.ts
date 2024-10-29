@@ -1,7 +1,7 @@
 export interface Restaurant {
-    name: string;
     category: Category;
     image: Image;
+    description: string;
     link: string;
 }
 
