@@ -25,23 +25,27 @@ var import_express = __toESM(require("express"));
 var import_restaurant = require("./pages/restaurant");
 var import_restaurant_svc = require("./services/restaurant-svc");
 var import_mongo = require("./services/mongo");
+var import_guest_svc = __toESM(require("./services/guest-svc"));
 (0, import_mongo.connect)("slofoodguide");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
+console.log(staticDir);
 app.use(import_express.default.static(staticDir));
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
 app.get(
-  "/restaurant/:destId",
+  "/restaurant/:destId/:username",
   (req, res) => {
-    const { destId } = req.params;
+    const { destId, username } = req.params;
     const restaurant = (0, import_restaurant_svc.getRestaurant)(destId);
     const header = (0, import_restaurant_svc.getHeaderData)();
-    const data = { restaurant, header };
-    const page = new import_restaurant.RestaurantPage(data);
-    res.set("Content-Type", "text/html").send(page.render());
+    import_guest_svc.default.get(username).then((guest) => {
+      const data = { restaurant, header, guest };
+      const page = new import_restaurant.RestaurantPage(data);
+      res.set("Content-Type", "text/html").send(page.render());
+    });
   }
 );
 app.listen(port, () => {

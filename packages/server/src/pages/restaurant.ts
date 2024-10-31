@@ -2,11 +2,16 @@
 import { css, html } from "@calpoly/mustang/server";
 import { Restaurant, Header, Link } from "../models/restaurant";
 import renderPage from "./renderPage"; // generic page renderer
+import { Schema, model } from "mongoose";
+import { Guest } from "../models/guest";
 
+interface PageData {
+  restaurant: Restaurant; header: Header; guest: Guest
+}
 export class RestaurantPage {
-  data: { restaurant: Restaurant; header: Header };
+  data: PageData;
 
-  constructor(data: { restaurant: Restaurant; header: Header }) {
+  constructor(data: PageData) {
     this.data = data;
   }
 
@@ -26,9 +31,10 @@ export class RestaurantPage {
   }
 
   renderBody() {
-    const { restaurant, header } = this.data;
+    const { restaurant, header, guest } = this.data;
     const { category, image, description, link } = restaurant;
     const { nav, darkModeLabel } = header;
+    const { username, nickname, favoritemeal, partysize} = guest;
 
     const links = nav.map(this.renderNavLink);
 
@@ -45,6 +51,12 @@ export class RestaurantPage {
       </slo-food-header>
         <section class="restaurant">
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
+          <div class="card">
+            <h2 slot="userid"> ${username}</h2>
+            <p slot ="nickname"></p>
+            <img slot ="favorite meal" ${favoritemeal}/>
+            <p slot="partysize"> ${partysize}</p>
+          </div>
           <div class="card">
             <h2 slot="category">${category}</h2>
             <img

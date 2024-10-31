@@ -26,7 +26,7 @@ const restaurants = {
   Meals: {
     category: "Meals",
     image: {
-      src: "../images/meal.jpg",
+      src: "/images/meal.jpg",
       alt: "Explore Meals in SLO",
       width: 300,
       height: 200
@@ -37,7 +37,7 @@ const restaurants = {
   SmallBites: {
     category: "Small Bites",
     image: {
-      src: "images/farmers.jpg",
+      src: "/images/farmers.jpg",
       alt: "Explore Small Bites in SLO",
       width: 300,
       height: 200
@@ -47,7 +47,7 @@ const restaurants = {
   Beverages: {
     category: "Beverages",
     image: {
-      src: "images/beverage.jpg",
+      src: "/images/beverage.jpg",
       alt: "Explore Beverages in SLO",
       width: 300,
       height: 200

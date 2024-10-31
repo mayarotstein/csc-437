@@ -53,9 +53,10 @@ class RestaurantPage {
     `;
   }
   renderBody() {
-    const { restaurant, header } = this.data;
+    const { restaurant, header, guest } = this.data;
     const { category, image, description, link } = restaurant;
     const { nav, darkModeLabel } = header;
+    const { username, nickname, favoritemeal, partysize } = guest;
     const links = nav.map(this.renderNavLink);
     return import_server.html`
       <body>
@@ -70,6 +71,12 @@ class RestaurantPage {
       </slo-food-header>
         <section class="restaurant">
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
+          <div class="card">
+            <h2 slot="userid"> ${username}</h2>
+            <p slot ="nickname"></p>
+            <img slot ="favorite meal" ${favoritemeal}/>
+            <p slot="partysize"> ${partysize}</p>
+          </div>
           <div class="card">
             <h2 slot="category">${category}</h2>
             <img
