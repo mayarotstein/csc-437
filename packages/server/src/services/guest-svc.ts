@@ -18,12 +18,39 @@ function index(): Promise<Guest[]> {
     return GuestModel.find();
   }
   
-  function get(username: String): Promise<Guest> {
-    return GuestModel.find({ username })
-      .then((list) => list[0])
-      .catch((err) => {
-        throw `${username} Not Found`;
-      });
-  }
+function get(username: String): Promise<Guest> {
+  return GuestModel.find({ username })
+    .then((list) => list[0])
+    .catch((err) => {
+      throw `${username} Not Found`;
+    });
+}
+
+function create(json: Guest): Promise<Guest> {
+  const t = new GuestModel(json);
+  return t.save();
+}
   
-  export default { index, get };
+function update(
+  username: String,
+  guest: Guest
+): Promise<Guest> {
+  return GuestModel.findOneAndUpdate({ username }, guest, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${username} not updated`;
+    else return updated as Guest;
+  });
+}
+
+function remove(userid: String): Promise<void> {
+  return GuestModel.findOneAndDelete({ userid }).then(
+    (deleted) => {
+      if (!deleted) throw `${userid} not deleted`;
+    }
+  );
+}
+
+
+
+export default { index, get, create, update, remove };

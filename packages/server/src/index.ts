@@ -4,6 +4,8 @@ import { RestaurantPage } from "./pages/restaurant";
 import { getRestaurant, getHeaderData } from "./services/restaurant-svc";
 import { connect } from "./services/mongo";
 import Guests from "./services/guest-svc";
+import guests from "./routes/guests";
+
 
 connect("slofoodguide");
 
@@ -12,6 +14,12 @@ const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 console.log(staticDir)
 app.use(express.static(staticDir));
+
+// Middleware:
+app.use(express.json());
+
+app.use("/api/guests", guests);
+
 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");

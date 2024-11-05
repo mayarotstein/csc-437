@@ -26,12 +26,15 @@ var import_restaurant = require("./pages/restaurant");
 var import_restaurant_svc = require("./services/restaurant-svc");
 var import_mongo = require("./services/mongo");
 var import_guest_svc = __toESM(require("./services/guest-svc"));
+var import_guests = __toESM(require("./routes/guests"));
 (0, import_mongo.connect)("slofoodguide");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 console.log(staticDir);
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.json());
+app.use("/api/guests", import_guests.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });

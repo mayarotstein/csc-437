@@ -40,4 +40,23 @@ function get(username) {
     throw `${username} Not Found`;
   });
 }
-var guest_svc_default = { index, get };
+function create(json) {
+  const t = new GuestModel(json);
+  return t.save();
+}
+function update(username, guest) {
+  return GuestModel.findOneAndUpdate({ username }, guest, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${username} not updated`;
+    else return updated;
+  });
+}
+function remove(userid) {
+  return GuestModel.findOneAndDelete({ userid }).then(
+    (deleted) => {
+      if (!deleted) throw `${userid} not deleted`;
+    }
+  );
+}
+var guest_svc_default = { index, get, create, update, remove };
