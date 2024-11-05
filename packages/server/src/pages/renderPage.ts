@@ -13,7 +13,7 @@ const defaults = {
   styles: [],
   scripts: [
     `import { define } from "@calpoly/mustang";
-    import { SloFoodHeaderElement } from "../scripts/slofoodheader.js";
+    import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
 
     define({
       "slo-food-header": SloFoodHeaderElement

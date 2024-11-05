@@ -24,11 +24,12 @@ export class RestaurantPage {
 
   renderNavLink(l: Link) {
     return html`
-      <a slot="nav-item" href="${l.href}">
+      <a slot="nav" href="${l.href}">
         ${l.label}
       </a>
     `;
   }
+
 
   renderBody() {
     const { restaurant, header, guest } = this.data;
@@ -36,18 +37,15 @@ export class RestaurantPage {
     const { nav, darkModeLabel } = header;
     const { username, nickname, favoritemeal, partysize} = guest;
 
+
     const links = nav.map(this.renderNavLink);
 
     return html`
       <body>
       <main class="page">
         <slo-food-header>
-          <span slot="title">San Luis Obispo Food Guide</span>
-          <span slot="nav">
-            <a href="index.html">Home</a> > 
-            Restaurant
-          </span>
-          <span slot="dark-mode"> Dark Mode</span>
+          ${links}
+          <span slot="dark-mode"> Dark Mode ${darkModeLabel}</span>
       </slo-food-header>
         <section class="restaurant">
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>

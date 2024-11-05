@@ -47,7 +47,7 @@ class RestaurantPage {
   }
   renderNavLink(l) {
     return import_server.html`
-      <a slot="nav-item" href="${l.href}">
+      <a slot="nav" href="${l.href}">
         ${l.label}
       </a>
     `;
@@ -62,12 +62,8 @@ class RestaurantPage {
       <body>
       <main class="page">
         <slo-food-header>
-          <span slot="title">San Luis Obispo Food Guide</span>
-          <span slot="nav">
-            <a href="index.html">Home</a> > 
-            Restaurant
-          </span>
-          <span slot="dark-mode"> Dark Mode</span>
+          ${links}
+          <span slot="dark-mode"> Dark Mode ${darkModeLabel}</span>
       </slo-food-header>
         <section class="restaurant">
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>

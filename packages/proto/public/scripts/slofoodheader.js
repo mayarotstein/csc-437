@@ -6,9 +6,9 @@ export class SloFoodHeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header>
-                <h1><slot name="title"></slot></h1>
+                <h1><slot name="title">San Luis Obispo Food Guide</slot></h1>
                 <nav>
-                    <p><slot name="nav"></slot></p>
+                    <slot name="nav"></slot>
                 </nav>
                 <label>
                     <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
@@ -37,9 +37,14 @@ export class SloFoodHeaderElement extends HTMLElement {
 
     }
     
-    nav p {
+    nav {
+        display: flex;
         color: var(--color-text-header);
         margin: var(--size-spacing-small);
+        ::slotted(a:not(:first-child))::before {
+          content: ">";
+          padding: 0.25em;
+        }
     }
     
   `;

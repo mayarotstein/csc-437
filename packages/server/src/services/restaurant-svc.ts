@@ -38,7 +38,7 @@ const restaurants = {
 
     const headerData: Header = {
       nav: [{label: "Home", href: "index.html"}, {label: "Restaurant", href: "restaurant.html"}],
-      darkModeLabel: true,
+      darkModeLabel: false,
     };
 
     export function getRestaurant(category: string) {
