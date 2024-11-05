@@ -121,6 +121,7 @@ section h1 {
     background-color: var(--color-button-hover);
 }
 
+
 @media (max-width: 768px) {
     section {
         grid-template-columns: 1fr;

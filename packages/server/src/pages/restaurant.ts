@@ -53,8 +53,11 @@ export class RestaurantPage {
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
           <div class="card">
             <h2 slot="userid"> ${username}</h2>
-            <p slot ="nickname"></p>
-            <img slot ="favorite meal" ${favoritemeal}/>
+            <p slot ="nickname"> ${nickname}</p>
+            <img
+              slot="favorite meal"
+              src="${favoritemeal}"
+            />
             <p slot="partysize"> ${partysize}</p>
           </div>
           <div class="card">

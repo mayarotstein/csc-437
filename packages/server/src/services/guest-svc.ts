@@ -6,6 +6,7 @@ const GuestSchema = new Schema<Guest>(
   {
     username: { type: String, required: true, trim: true },
     nickname: { type: String, trim: true },
+    favoritemeal: {type: String, trim: true},
     partysize: { type: Number, trim: true },
   },
   { collection: "slofood_guests" }
