@@ -32,9 +32,13 @@ const defaults = {
   scripts: [
     `import { define } from "@calpoly/mustang";
     import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
+    import { GuestProfile } from "/scripts/guest.js";
 
     define({
       "slo-food-header": SloFoodHeaderElement
+    });
+      define({
+      "guest-profile": GuestProfile
     });
 
     SloFoodHeaderElement.initializeOnce();
