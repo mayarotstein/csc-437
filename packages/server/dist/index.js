@@ -39,10 +39,10 @@ app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
 app.get(
-  "/restaurant/:destId/:username",
+  "/restaurant/:guests/:username",
   (req, res) => {
-    const { destId, username } = req.params;
-    const restaurant = (0, import_restaurant_svc.getRestaurant)(destId);
+    const { guests: guests2, username } = req.params;
+    const restaurant = (0, import_restaurant_svc.getRestaurant)(guests2);
     const header = (0, import_restaurant_svc.getHeaderData)();
     import_guest_svc.default.get(username).then((guest) => {
       const data = { restaurant, header, guest };

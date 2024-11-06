@@ -35,7 +35,10 @@ export class RestaurantPage {
     const { restaurant, header, guest } = this.data;
     const { category, image, description, link } = restaurant;
     const { nav, darkModeLabel } = header;
-    const { username, nickname, favoritemeal, partysize} = guest;
+    /*const { username, nickname, favoritemeal, partysize} = guest;*/
+    const { username } = guest;
+    
+    const api = `/api/guests/${username}`;
 
 
     const links = nav.map(this.renderNavLink);
@@ -49,14 +52,7 @@ export class RestaurantPage {
       </slo-food-header>
         <section class="restaurant">
           <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
-          <guest-profile>
-            <h2 slot="username"> Name: ${username}</h2>
-            <img
-              slot="favorite meal"
-              src="${favoritemeal}"
-            />
-            <p slot ="nickname"> Nickname: ${nickname}</p>
-            <p slot="partysize"> Party Size: ${partysize}</p>
+          <guest-profile src="${api}">
           </guest-profile>
           <div class="card">
             <h2 slot="category">${category}</h2>

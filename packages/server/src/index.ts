@@ -27,10 +27,10 @@ app.get("/hello", (req: Request, res: Response) => {
 
 
 app.get(
-  "/restaurant/:destId/:username",
+  "/restaurant/:guests/:username",
   (req: Request, res: Response) => {
-    const { destId, username } = req.params;
-    const restaurant = getRestaurant(destId);
+    const { guests, username } = req.params;
+    const restaurant = getRestaurant(guests);
     const header = getHeaderData();
     
     Guests.get(username).then((guest) => {
