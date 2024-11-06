@@ -6,8 +6,8 @@ export class GuestProfile extends HTMLElement {
         <template>
             <div class="card">
                 <h2><slot name="username"></slot></h2>
-                <slot name="favorite meal"></slot>
-                <p><slot name"nickname"></slot></p>
+                <slot name="favoritemeal"></slot>
+                <p><slot name="nickname"></slot></p>
                 <p><slot name="partysize"></slot></p>
             </div>
         </template>
@@ -53,23 +53,8 @@ export class GuestProfile extends HTMLElement {
     shadow(this)
       .template(GuestProfile.template)
       .styles(reset.styles, GuestProfile.styles);
-
-      const toggle = this.shadowRoot.querySelector('input[type="checkbox"]');
-
-        toggle.addEventListener("change", (event) => {
-            relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
-        });
   }
 
-  static initializeOnce() {
-    function toggleDarkMode(page, checked) {
-      page.classList.toggle("dark-mode", checked);
-    }
-
-    document.body.addEventListener("darkmode:toggle", (event) =>
-      toggleDarkMode(event.currentTarget, event.detail.checked)
-    );
-  }
 
   get src() {
     return this.getAttribute("src");
@@ -93,10 +78,18 @@ export class GuestProfile extends HTMLElement {
 
   renderSlots(json) {
   const entries = Object.entries(json);
-  const toSlot = ([key, value]) =>
-    html`<span slot="${key}">${value}</span>`
+  const toSlot = ([key, value]) =>{
+    switch (key) {
+      case "favoritemeal":
+        return html`<img slot="${key}" src="${value}" />`;
+      
+      default:
+        return html`<span slot="${key}">${value}</span>`;
+    }
+  };
 
   const fragment = entries.map(toSlot);
+
   this.replaceChildren(...fragment);
   }
 
