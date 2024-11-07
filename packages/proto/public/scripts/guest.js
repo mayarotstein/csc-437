@@ -5,10 +5,11 @@ export class GuestProfile extends HTMLElement {
     static template = html`
         <template>
             <div class="card">
-                <h2><slot name="username"></slot></h2>
+                <h2>Username: <slot name="username"></slot></h2>
                 <slot name="favoritemeal"></slot>
-                <p><slot name="nickname"></slot></p>
-                <p><slot name="partysize"></slot></p>
+                <p>Nickname: <slot name="nickname"></slot></p>
+                <p>Party Size: <slot name="partysize"></slot></p>
+                <a class="button" href="meal.html">Make A Reservation</a>
             </div>
         </template>
   `;
@@ -46,6 +47,24 @@ export class GuestProfile extends HTMLElement {
         display: block;
         border-radius: var(--img-border-radius);
     }
+
+    .button {
+      display: inline-block;
+      padding: var(--size-spacing-medium);
+      font-size: var(--size-type-medium);
+      font-family: var(--font-family-display);
+      background-color: var(--color-button-background);
+      color: var(--color-button-text);
+      border-radius: var(--card-border-radius);
+      text-decoration: none;
+      text-align: center;
+      border: none;
+      transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: var(--color-button-hover);
+  }
   `;
 
   constructor() {
