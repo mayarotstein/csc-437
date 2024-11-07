@@ -14,22 +14,37 @@
         <link rel="stylesheet" href="/styles/tokens.css">
         <link rel="stylesheet" href="/styles/reset.css"/>
 
+        <script type="importmap">
+            {
+              "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+              }
+            }
+        </script>
+        <script type="module">
+            import { define } from "@calpoly/mustang";
+            import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
+          
+            define({
+              "slo-food-header": SloFoodHeaderElement
+            });
+        </script>
+
     </head>
     <body class="page">
-        <header>
-            <h1>San Luis Obispo Food Guide</h1>
-            <nav>
-                <p>
-                    <a href="index.html">Home</a> > 
-                    <a href="restaurant.html">Restaurant</a> > 
-                    Small Bites
-                </p>
-            </nav>    
-        </header>
+        <slo-food-header>
+            <span slot="title">San Luis Obispo Food Guide</span>
+            <span slot="nav">
+              <a href="index.html">Home</a> > 
+              <a href="restaurant.html">Restaurant</a> > 
+              Small Bites
+            </span>
+            <span slot="dark-mode"> Dark Mode</span>
+        </slo-food-header>
         <section>
-            <div class="card">
-                <h1>Best Small Bites in San Luis Obispo</h1>
+            <h1>Best Small Bites in San Luis Obispo</h1>
 
+            <div class="card">
                 <h2>Small Snacks</h2>
                 <p>Whether you're craving frozen yogurt, ice cream, or a quick snack, SLO has plenty of options to satisfy your taste buds.</p>
                 <ul>
@@ -41,5 +56,11 @@
                     <li><strong>Insomnia Cookies</strong></li></ul>
             </div>
         </section>
+        <script>
+            document.body.addEventListener("darkmode:toggle", (event) => {
+                const { checked } = event.detail;
+                document.body.classList.toggle("dark-mode", checked);
+            });
+        </script>
     </body>
 </html>

@@ -2,21 +2,6 @@ body {
     background-color: var(--color-background-page);
     color: var(--color-text-body);
 }
-header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: var(--size-spacing-medium);
-    background-color: var(--color-background-header);
-    color: var(--color-text-header);
-    flex-direction: column;
-}
-
-header h1 {
-    font-family: var(--font-family-display);
-    font-size: var(--size-type-xxxlarge);
-    font-weight: var(--font-weight-light);
-}
 
 body {
     font-family: var(--font-family-body);
@@ -36,6 +21,7 @@ h1 {
     font-family: var(--font-family-display);
     font-size: var(--size-type-xlarge);
     font-weight: var(--font-weight-medium);
+    color: var(--color-text-h1);
 
 }
 h2{
@@ -117,16 +103,35 @@ section h1 {
     gap: var(--size-spacing-medium);
     flex-grow: 1;
 }
+.button {
+    display: inline-block;
+    padding: var(--size-spacing-medium);
+    font-size: var(--size-type-medium);
+    font-family: var(--font-family-display);
+    background-color: var(--color-button-background);
+    color: var(--color-button-text);
+    border-radius: var(--card-border-radius);
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--color-button-hover);
+}
+
+
 @media (max-width: 768px) {
     section {
-        grid-template-columns: 1fr; /* Change to one column */
+        grid-template-columns: 1fr;
     }
 
     img {
-        width: 100%; /* Ensure the image fits within the card in one column layout */
+        width: 100%;
     }
 
     .card {
-        margin-bottom: var(--size-spacing-large); /* Add spacing between cards */
+        margin-bottom: var(--size-spacing-large);
     }
 }
