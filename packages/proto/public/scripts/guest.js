@@ -4,12 +4,12 @@ import reset from "./styles/reset.css.js";
 export class GuestProfile extends HTMLElement {
     static template = html`
         <template>
-            <div class="card">
-                <h2>Username: <slot name="username"></slot></h2>
-                <slot name="favoritemeal"></slot>
-                <p>Nickname: <slot name="nickname"></slot></p>
-                <p>Party Size: <slot name="partysize"></slot></p>
-                <a class="button" href="meal.html">Make A Reservation</a>
+          <div class="card">
+              <h2>Username: <slot name="username"></slot></h2>
+              <slot name="favoritemeal"></slot>
+              <p>Nickname: <slot name="nickname"></slot></p>
+              <p>Party Size: <slot name="partysize"></slot></p>
+              <a button class="button" href="meal.html">Make A Reservation</a>
             </div>
         </template>
   `;

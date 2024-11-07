@@ -71,6 +71,16 @@ export class SloFoodHeaderElement extends HTMLElement {
       toggleDarkMode(event.currentTarget, event.detail.checked)
     );
   }
+
+  _authObserver = new Observer(this, "blazing:auth");
+
+  connectedCallback() {
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+      }
+    });
+  }
 }
 
 function relayEvent(event, eventName, detail) {

@@ -5,6 +5,9 @@ import { getRestaurant, getHeaderData } from "./services/restaurant-svc";
 import { connect } from "./services/mongo";
 import Guests from "./services/guest-svc";
 import guests from "./routes/guests";
+import auth, { authenticateUser } from "./routes/auth";
+import { LoginPage } from "./pages/auth";
+
 
 
 connect("slofoodguide");
@@ -18,7 +21,8 @@ app.use(express.static(staticDir));
 // Middleware:
 app.use(express.json());
 
-app.use("/api/guests", guests);
+app.use("/api/guests", authenticateUser, guests);
+
 
 
 app.get("/hello", (req: Request, res: Response) => {
@@ -42,6 +46,14 @@ app.get(
     
   }
 );
+
+app.get("/login", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
+app.use("/auth", auth);
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

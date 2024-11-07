@@ -23,6 +23,11 @@ const defaults = {
       "guest-profile": GuestProfile
     });
 
+    define({
+      "blz-header": HeaderElement,
+      "mu-auth": Auth.Provider
+    });
+
     SloFoodHeaderElement.initializeOnce();
     `
   ],
