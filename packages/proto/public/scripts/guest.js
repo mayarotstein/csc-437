@@ -112,6 +112,22 @@ export class GuestProfile extends HTMLElement {
   this.replaceChildren(...fragment);
   }
 
+  _authObserver = new Observer(this, "blazing:auth");
+
+  get authorization() {
+    return (
+      this._user?.authenticated && {
+        Authorization: `Bearer ${this._user.token}`
+      }
+    );
+  }
+
+  connectedCallback() {
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+    });
+  }
+
 }
 
 function relayEvent(event, eventName, detail) {

@@ -14,6 +14,10 @@ export class SloFoodHeaderElement extends HTMLElement {
                     <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
                     <slot name="dark-mode"></slot>
                 </label>
+                <a slot="actuator">
+                  Hello,
+                  <span id="userid"></span>
+                </a>
             </header>
         </template>
   `;
@@ -60,6 +64,12 @@ export class SloFoodHeaderElement extends HTMLElement {
         toggle.addEventListener("change", (event) => {
             relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
         });
+      
+      this._signout = this.shadowRoot.querySelector("#signout");
+
+      this._signout.addEventListener("click", (event) =>
+        Events.relay(event, "auth:message", ["auth/signout"])
+      );
   }
   
   static initializeOnce() {
@@ -72,7 +82,7 @@ export class SloFoodHeaderElement extends HTMLElement {
     );
   }
 
-  _authObserver = new Observer(this, "blazing:auth");
+  _authObserver = new Observer(this, "slofoodguide:auth");
 
   connectedCallback() {
     this._authObserver.observe(({ user }) => {
@@ -80,6 +90,20 @@ export class SloFoodHeaderElement extends HTMLElement {
         this.userid = user.username;
       }
     });
+  }
+
+    get userid() {
+    return this._userid.textContent;
+  }
+
+  set userid(id) {
+    if (id === "anonymous") {
+      this._userid.textContent = "";
+      this._signout.disabled = true;
+    } else {
+      this._userid.textContent = id;
+      this._signout.disabled = false;
+    }
   }
 }
 
