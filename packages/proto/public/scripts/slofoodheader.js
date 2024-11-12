@@ -73,7 +73,7 @@ export class SloFoodHeaderElement extends HTMLElement {
     }
 
     #userid:empty::before {
-      content: "traveler";
+      content: "Guest";
     }
     menu {
       color: var(--color-link);

@@ -1,7 +1,11 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, define, Form, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class GuestProfile extends HTMLElement {
+    static uses = define({
+      "mu-form": Form.Element,
+    });
+
     static template = html`
         <template>
           <div class="card">
@@ -10,7 +14,27 @@ export class GuestProfile extends HTMLElement {
               <p>Nickname: <slot name="nickname"></slot></p>
               <p>Party Size: <slot name="partysize"></slot></p>
               <a button class="button" href="meal.html">Make A Reservation</a>
-            </div>
+          </div>
+          <div class="card">
+            <mu-form class="edit">
+              <label>
+                <span>Username</span>
+                <input name="username" />
+              </label>
+              <label>
+                <span>Favorite Meal</span>
+                <input type="file" name="favoritemeal" />
+              </label>
+              <label>
+                <span>Nickname</span>
+                <input name="nickname" />
+              </label>
+              <label>
+                <span>Party Size</span>
+                <input name="partysize" />
+              </label>
+            </mu-form>
+          </div>
         </template>
   `;
 
