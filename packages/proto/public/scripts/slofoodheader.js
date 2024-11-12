@@ -1,8 +1,12 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Observer, Dropdown, define, Events } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 
 export class SloFoodHeaderElement extends HTMLElement {
+    static uses = define({
+      "mu-dropdown": Dropdown.Element
+    });
+
     static template = html`
         <template>
             <header>
@@ -10,14 +14,26 @@ export class SloFoodHeaderElement extends HTMLElement {
                 <nav>
                     <slot name="nav"></slot>
                 </nav>
-                <label>
-                    <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
-                    <slot name="dark-mode"></slot>
-                </label>
-                <a slot="actuator">
-                  Hello,
-                  <span id="userid"></span>
-                </a>
+                <mu-dropdown>
+                  <a slot="actuator">
+                    Hello,
+                    <span id="userid"></span>
+                  </a>
+                    <menu>
+                      <li>
+                        <label>
+                          <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
+                          <slot name="dark-mode"></slot>
+                        </label>
+                      </li>
+                      <li class="when-signed-in">
+                        <a id="signout">Sign Out</a>
+                      </li>
+                      <li class="when-signed-out">
+                        <a href="/login">Sign In</a>
+                      </li>
+                    </menu>
+                </mu-dropdown>
             </header>
         </template>
   `;
@@ -50,7 +66,25 @@ export class SloFoodHeaderElement extends HTMLElement {
           padding: 0.25em;
         }
     }
+
+    a[slot="actuator"] {
+      color: var(--color-link-inverted);
+      cursor: pointer;
+    }
+
+    #userid:empty::before {
+      content: "traveler";
+    }
+    menu {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: underline;
+    }
     
+    a:has(#userid:empty) ~ menu > .when-signed-in,
+    a:has(#userid:not(:empty)) ~ menu > .when-signed-out {
+      display: none;
+    }
   `;
 
   constructor() {
@@ -64,7 +98,7 @@ export class SloFoodHeaderElement extends HTMLElement {
         toggle.addEventListener("change", (event) => {
             relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
         });
-      
+      this._userid = this.shadowRoot.querySelector("#userid");
       this._signout = this.shadowRoot.querySelector("#signout");
 
       this._signout.addEventListener("click", (event) =>

@@ -35,14 +35,8 @@ const defaults = {
     import { GuestProfile } from "/scripts/guest.js";
 
     define({
-      "slo-food-header": SloFoodHeaderElement
-    });
-      define({
-      "guest-profile": GuestProfile
-    });
-
-    define({
-      "blz-header": HeaderElement,
+      "slo-food-header": SloFoodHeaderElement,
+      "guest-profile": GuestProfile,
       "mu-auth": Auth.Provider
     });
 
