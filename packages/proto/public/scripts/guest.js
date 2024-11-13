@@ -106,6 +106,10 @@ export class GuestProfile extends HTMLElement {
   connectedCallback() {
     if (this.src) this.hydrate(this.src);
   }
+  
+  get form() {
+    return this.shadowRoot.querySelector("mu-form.edit");
+  }
 
   hydrate(url) {
     fetch(url, { headers: this.authorization })
@@ -113,10 +117,13 @@ export class GuestProfile extends HTMLElement {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();
       })
-      .then((json) => this.renderSlots(json))
-      .catch((error) =>
-        console.log(`Failed to render data ${url}:`, error)
-      );
+      .then((json) => {
+        this.renderSlots(json);
+        this.form.init = json;
+      })
+      .catch((error) => {
+        console.log(`Failed to render data ${url}:`, error);
+      });
   }
 
   renderSlots(json) {
