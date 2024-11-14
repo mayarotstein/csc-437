@@ -47,10 +47,10 @@ router.post("/", (req, res) => {
     (guest) => res.status(201).json(guest)
   ).catch((err) => res.status(500).send(err));
 });
-router.put("/:username", (req, res) => {
+router.put("/:userid", (req, res) => {
   const { userid } = req.params;
   const newGuest = req.body;
-  import_guest_svc.default.update(userid, newGuest).then((guest) => res.json(guest)).catch((err) => res.status(404).end());
+  import_guest_svc.default.update(userid, newGuest).then((guest) => res.json(guest)).catch((err) => res.status(404).send(err));
 });
 router.delete("/:userid", (req, res) => {
   const { userid } = req.params;

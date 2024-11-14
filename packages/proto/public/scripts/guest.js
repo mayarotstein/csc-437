@@ -9,30 +9,31 @@ export class GuestProfile extends HTMLElement {
     static template = html`
         <template>
           <div class="card">
-              <h2>Username: <slot name="username"></slot></h2>
-              <slot name="favoritemeal"></slot>
-              <p>Nickname: <slot name="nickname"></slot></p>
-              <p>Party Size: <slot name="partysize"></slot></p>
-              <a button class="button" href="meal.html">Make A Reservation</a>
+            <h2>Your Profile</h2>
+            <p>Username: <slot name="username"></slot></p>
+            <slot name="favoritemeal"></slot>
+            <p>Nickname: <slot name="nickname"></slot></p>
+            <p>Party Size: <slot name="partysize"></slot></p>
+            <a button class="button" href="meal.html">Make A Reservation</a>
           </div>
           <div class="card">
             <mu-form class="edit">
-              <label>
+              <h2><label>
                 <span>Username</span>
                 <input name="username" />
-              </label>
-              <label>
+              </label></h2>
+              <h2><label>
                 <span>Favorite Meal</span>
                 <input type="file" name="favoritemeal" />
-              </label>
-              <label>
+              </label></h2>
+              <h2><label>
                 <span>Nickname</span>
                 <input name="nickname" />
-              </label>
-              <label>
+              </label></h2>
+              <h2><label>
                 <span>Party Size</span>
                 <input name="partysize" />
-              </label>
+              </label></h2>
             </mu-form>
           </div>
         </template>
@@ -57,6 +58,7 @@ export class GuestProfile extends HTMLElement {
         font-family: var(--font-family-display);
         font-size: var(--size-type-large);
         font-weight: var(--font-weight-normal);
+        grid-column: 1 / -1;
     }
 
     p {
@@ -91,24 +93,55 @@ export class GuestProfile extends HTMLElement {
   }
   `;
 
+  get src() {
+    return this.getAttribute("src");
+  }
+  
+  get form() {
+    return this.shadowRoot.querySelector("mu-form.edit");
+  }
+  
+
   constructor() {
     super();
     shadow(this)
       .template(GuestProfile.template)
       .styles(reset.styles, GuestProfile.styles);
+
+      this.addEventListener("mu-form:submit", (event) =>
+      this.submit(this.src, event.detail)
+    );
   }
 
-
-  get src() {
-    return this.getAttribute("src");
-  }
+  _authObserver = new Observer(this, "slofoodguide:auth");
 
   connectedCallback() {
-    if (this.src) this.hydrate(this.src);
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+      if (this.src && this.mode !== "new")
+        this.hydrate(this.src);
+    });
   }
-  
-  get form() {
-    return this.shadowRoot.querySelector("mu-form.edit");
+
+  static observedAttributes = ["src"];
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (
+      name === "src" &&
+      oldValue !== newValue &&
+      oldValue &&
+      newValue &&
+      this.mode !== "new"
+    )
+      this.hydrate(newValue);
+  }
+
+  get authorization() {
+    return (
+      this._user?.authenticated && {
+        Authorization: `Bearer ${this._user.token}`
+      }
+    );
   }
 
   hydrate(url) {
@@ -137,26 +170,37 @@ export class GuestProfile extends HTMLElement {
         return html`<span slot="${key}">${value}</span>`;
     }
   };
-
   const fragment = entries.map(toSlot);
 
   this.replaceChildren(...fragment);
-  }
+}
 
-  _authObserver = new Observer(this, "blazing:auth");
+  submit(url, json) {
+    const method = this.mode === "new" ? "POST" : "PUT";
 
-  get authorization() {
-    return (
-      this._user?.authenticated && {
-        Authorization: `Bearer ${this._user.token}`
-      }
-    );
-  }
+    if (this._favoritemeal) json.favoritemeal = this._favoritemeal;
 
-  connectedCallback() {
-    this._authObserver.observe(({ user }) => {
-      this._user = user;
-    });
+    fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authorization
+      },
+      body: JSON.stringify(json)
+    })
+      .then((res) => {
+        if (res.status !== (this.mode === "new" ? 201 : 200))
+          throw `Status: ${res.status}`;
+        return res.json();
+      })
+      .then((json) => {
+        this.renderSlots(json);
+        this.form.init = json;
+        this.mode = "view";
+      })
+      .catch((error) => {
+        console.log(`Failed to submit ${url}:`, error);
+      });
   }
 
 }

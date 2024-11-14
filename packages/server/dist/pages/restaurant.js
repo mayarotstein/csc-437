@@ -81,7 +81,7 @@ class RestaurantPage {
                 height="${image.height}"
               />
             <p>${description}</p>
-            <a class="button" slot="link" href="${link}">Visit Website</a>
+            <a class="button" slot="link" href="${link}">Visit Restaurants</a>
             </div>
           </section>
         </mu-auth>
