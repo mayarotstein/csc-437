@@ -8,14 +8,16 @@ export class GuestProfile extends HTMLElement {
 
     static template = html`
         <template>
-          <div class="card">
-            <h2>Your Profile</h2>
-            <p>Username: <slot name="username"></slot></p>
-            <slot name="favoritemeal"></slot>
-            <p>Nickname: <slot name="nickname"></slot></p>
-            <p>Party Size: <slot name="partysize"></slot></p>
-            <a button class="button" href="meal.html">Make A Reservation</a>
-          </div>
+          <section class="view">
+            <div class="card">
+              <h2>Your Profile</h2>
+              <p>Username: <slot name="username"></slot></p>
+              <slot name="favoritemeal"></slot>
+              <p>Nickname: <slot name="nickname"></slot></p>
+              <p>Party Size: <slot name="partysize"></slot></p>
+              <button id="edit" class="button">Edit</a>
+            </div>
+          </section>
           <div class="card">
             <mu-form class="edit">
               <h2><label>
@@ -41,18 +43,32 @@ export class GuestProfile extends HTMLElement {
 
 
   static styles = css`
-  
-  .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border: var(--card-border-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--size-spacing-medium);
-    background-color: var(--card-background-color);
-    gap: var(--size-spacing-medium);
-    flex-grow: 1;
+    :host {
+      display: contents;
     }
+    :host([mode="edit"]),
+    :host([mode="new"]) {
+      --display-view-none: none;
+    }
+    :host([mode="view"]) {
+      --display-editor-none: none;
+    }
+
+    section.view {
+      display: var(--display-view-none, grid);
+    }
+    
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      border: var(--card-border-color);
+      border-radius: var(--card-border-radius);
+      padding: var(--size-spacing-medium);
+      background-color: var(--card-background-color);
+      gap: var(--size-spacing-medium);
+      flex-grow: 1;
+      }
 
     h2{
         font-family: var(--font-family-display);
@@ -86,11 +102,15 @@ export class GuestProfile extends HTMLElement {
       text-align: center;
       border: none;
       transition: background-color 0.3s ease;
-  }
+    }
 
-  .button:hover {
-    background-color: var(--color-button-hover);
-  }
+    .button:hover {
+      background-color: var(--color-button-hover);
+    }
+
+    mu-form.edit {
+      display: var(--display-editor-none, grid);
+    }
   `;
 
   get src() {
@@ -100,13 +120,36 @@ export class GuestProfile extends HTMLElement {
   get form() {
     return this.shadowRoot.querySelector("mu-form.edit");
   }
+
+  get mode() {
+    return this.getAttribute("mode");
+  }
   
+  set mode(m) {
+    this.setAttribute("mode", m);
+  }
+
+  get editButton() {
+    return this.shadowRoot.getElementById("edit");
+  }
+  get favoritemealInput() {
+    return this.shadowRoot.querySelector('input[type="file"]');
+  }
 
   constructor() {
     super();
     shadow(this)
       .template(GuestProfile.template)
       .styles(reset.styles, GuestProfile.styles);
+
+      this.editButton.addEventListener(
+        "click",
+        () => (this.mode = "edit")
+      );
+
+      this.favoritemealInput.addEventListener("change", (event) =>
+      this.handleFavoritemealSelected(event)
+    );
 
       this.addEventListener("mu-form:submit", (event) =>
       this.submit(this.src, event.detail)
@@ -153,6 +196,7 @@ export class GuestProfile extends HTMLElement {
       .then((json) => {
         this.renderSlots(json);
         this.form.init = json;
+        this.mode = "view";
       })
       .catch((error) => {
         console.log(`Failed to render data ${url}:`, error);
@@ -203,7 +247,21 @@ export class GuestProfile extends HTMLElement {
       });
   }
 
+  handleFavoritemealSelected(ev) {
+    const target = ev.target;
+    const selectedFile = target.files[0];
+
+    const reader = new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(fr.result);
+      fr.onerror = (err) => reject(err);
+      fr.readAsDataURL(selectedFile);
+    });
+
+    reader.then((result) => (this.favoritemeal = result));
+  }
 }
+
 
 function relayEvent(event, eventName, detail) {
     event.stopPropagation();

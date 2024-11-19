@@ -7,6 +7,8 @@ import Guests from "./services/guest-svc";
 import guests from "./routes/guests";
 import auth, { authenticateUser } from "./routes/auth";
 import { LoginPage } from "./pages/auth";
+import { getFile, saveFile } from "./services/filesystem";
+
 
 
 
@@ -19,12 +21,22 @@ console.log(staticDir)
 app.use(express.static(staticDir));
 
 // Middleware:
+app.use(express.raw({ type: "image/*", limit: "32Mb" }));
 app.use(express.json());
 
+//Auth Routes
+app.use("/auth", auth);
+
+//API Routes
 app.use("/api/guests", authenticateUser, guests);
 
 
+// Images routes
+app.post("/images", saveFile);
+app.get("/images/:id", getFile);
 
+
+//Page Routes 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");
 });
@@ -52,9 +64,7 @@ app.get("/login", (req: Request, res: Response) => {
   res.set("Content-Type", "text/html").send(page.render());
 });
 
-app.use("/auth", auth);
-
-
+//Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

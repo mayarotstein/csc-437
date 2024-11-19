@@ -29,14 +29,19 @@ var import_guest_svc = __toESM(require("./services/guest-svc"));
 var import_guests = __toESM(require("./routes/guests"));
 var import_auth = __toESM(require("./routes/auth"));
 var import_auth2 = require("./pages/auth");
+var import_filesystem = require("./services/filesystem");
 (0, import_mongo.connect)("slofoodguide");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 console.log(staticDir);
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.raw({ type: "image/*", limit: "32Mb" }));
 app.use(import_express.default.json());
+app.use("/auth", import_auth.default);
 app.use("/api/guests", import_auth.authenticateUser, import_guests.default);
+app.post("/images", import_filesystem.saveFile);
+app.get("/images/:id", import_filesystem.getFile);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
@@ -57,7 +62,6 @@ app.get("/login", (req, res) => {
   const page = new import_auth2.LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
-app.use("/auth", import_auth.default);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
