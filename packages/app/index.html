@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/styles/page.css"/>
+        <link rel="stylesheet" href="/styles/tokens.css">
+        <link rel="stylesheet" href="/styles/reset.css"/>
+        
+        <script type="importmap">
+            {
+              "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+              }
+            }
+        </script>
+        <script type="module">
+            import { define, Auth, Events } from "@calpoly/mustang";
+            import { SloFoodHeaderElement } from "/src/components/slofood-header";
+          
+            define({
+                "slo-food-header": SloFoodHeaderElement,
+                "mu-auth": Auth.Provider
+            });
+            window.relayEvent = Events.relay;
+
+            SloFoodHeaderElement.initializeOnce();
+
+        </script>
+
+    </head>
+    <body class="page">
+        <mu-auth provides="slofoodguide:auth">
+            <slo-food-header></slo-food-header>
+            <section class="main-page">
+                <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
+                <p>Discover the best food and drink options in SLO, whether you're in the mood for meals, snacks, or beverages!</p>
+                <p>SLO Food Guide from a <em>SLOCAL!</em></p>
+                <h2><a href="restaurant.html" class="button">Explore Restaurants</a></h2>
+                <p>
+                    <svg class="icon">
+                        <use href="icons/food.svg#icon-utensils" />
+                    </svg>
+                Find all the best places for meals, snacks, and drinks in San Luis Obispo.
+                </p>
+            </section>
+        
+
+            <script>
+                document.body.addEventListener("darkmode:toggle", (event) => {
+                    const { checked } = event.detail;
+                    document.body.classList.toggle("dark-mode", checked);
+                });
+            </script>
+        </mu-auth>
+    </body>
+</html>
