@@ -1,3 +1,4 @@
+//proto/public/scripts/slofoodheader.js
 import { css, html, shadow, Observer, Dropdown, define, Events } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 

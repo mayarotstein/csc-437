@@ -1,3 +1,4 @@
+
 :root {
         /* tokens from lab 3 colors */
         --color-background-page: #d8d6d0;
@@ -70,6 +71,5 @@
             --color-button-hover: rgb(82, 84, 112);
             --color-text-list-strong: #162a4a;
           
-          }
-          
+          }  
     }

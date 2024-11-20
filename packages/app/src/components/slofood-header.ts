@@ -2,40 +2,57 @@
 import { LitElement, css, html } from "lit";
 import { Auth, define, Dropdown, Events, Observer} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
-//import reset from "../styles/reset.css";
+import reset from "../../public/styles/reset.css.ts";
 
 function toggleDarkMode(ev: InputEvent) {
-  const target = ev.target as HTMLInputElement;
-  const checked = target.checked;
+  const target = ev.target as HTMLInputElement | null;
 
-  Events.relay(ev, "dark-mode", { checked });
+  if (target && target.checked !== undefined) {
+    const checked = target.checked;
+
+    const darkModeEvent = new CustomEvent("darkmode:toggle", {
+      bubbles: true,
+      composed: true,
+      detail: { checked },
+    });
+
+    target.dispatchEvent(darkModeEvent);
+  }
 }
 
 export class SloFoodHeaderElement extends LitElement {
   static uses = define({
-    "mu-dropdown": Dropdown.Element
+    "drop-down": Dropdown.Element
   });
 
   @state()
   userid: string = "guest";
+
+  @state()
+  navigationLinks: { label: string; href: string }[] = [
+    { label: "Home", href: "/" },
+  ];
   
   render() {
     return html`
       <header>
         <h1>San Luis Obispo Food Guide</h1>
         <nav>
-            <slot name="nav"></slot>
+          ${this.navigationLinks.map(
+            (link) =>
+              html`<a href=${link.href}>${link.label}</a>`
+          )}
         </nav>
-        <mu-dropdown>
+        <drop-down>
           <a slot="actuator">
             Hello,
             <span id="userid">${this.userid}</span>
           </a>
             <menu>
               <li>
-                <label>
+                <label @change=${toggleDarkMode}>
                   <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
-                  <slot name="dark-mode"></slot>
+                  <slot name="dark-mode">Dark Mode</slot>
                 </label>
               </li>
               <li class="when-signed-in">
@@ -45,13 +62,13 @@ export class SloFoodHeaderElement extends LitElement {
                 <a href="/login">Sign In</a>
               </li>
             </menu>
-        </mu-dropdown>
+        </drop-down>
       </header>
     `;
   }
 
   static styles = [
-    //reset.styles,
+    reset.styles,
     css`
     header{
       display: flex;
@@ -80,6 +97,11 @@ export class SloFoodHeaderElement extends LitElement {
           padding: 0.25em;
         }
     }
+
+    nav a {
+      color: var(--color-text-header); /* Matches h1 */
+    }
+
 
     a[slot="actuator"] {
       color: var(--color-link-inverted);
@@ -117,16 +139,16 @@ export class SloFoodHeaderElement extends LitElement {
   }
   
   static initializeOnce() {
-    function toggleDarkMode(
-      page: HTMLElement,
-      checked: boolean) {
-      page.classList.toggle("dark-mode", checked);
+    if (document.body.dataset.darkModeListener === "true") {
+      return;
     }
-
-    document.body.addEventListener("darkmode:toggle", (event) =>
-      toggleDarkMode(event.currentTarget as HTMLElement,
-      (event as CustomEvent).detail?.checked
-      )
-    );
+  
+    document.body.addEventListener("darkmode:toggle", (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const { checked } = customEvent.detail;
+      document.body.classList.toggle("dark-mode", checked);
+    });
+  
+    document.body.dataset.darkModeListener = "true";
   }
 }
