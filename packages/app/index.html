@@ -31,8 +31,17 @@
             });
             window.relayEvent = Events.relay;
 
-            SloFoodHeaderElement.initializeOnce();
+            // Initialize the header element and set navigation links
+            document.addEventListener("DOMContentLoaded", () => {
+            const slofoodHeader = document.querySelector("slo-food-header");
 
+            // Check if the header element is found
+            if (slofoodHeader) {
+            slofoodHeader.navigationLinks = [
+                { label: "Home", href: "/" }
+            ];
+            }
+            });
         </script>
 
     </head>

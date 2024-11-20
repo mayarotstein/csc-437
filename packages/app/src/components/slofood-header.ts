@@ -29,9 +29,7 @@ export class SloFoodHeaderElement extends LitElement {
   userid: string = "guest";
 
   @state()
-  navigationLinks: { label: string; href: string }[] = [
-    { label: "Home", href: "/" },
-  ];
+  private navigationLinks: { label: string; href: string }[] = [];
   
   render() {
     return html`
