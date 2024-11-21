@@ -10,9 +10,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="/styles/page.css"/>
         <link rel="stylesheet" href="/styles/tokens.css">
-        <link rel="stylesheet" href="/styles/reset.css"/>
+        <link rel="stylesheet" href="/styles/page.css">
         
         <script type="importmap">
             {
@@ -31,11 +30,9 @@
             });
             window.relayEvent = Events.relay;
 
-            // Initialize the header element and set navigation links
             document.addEventListener("DOMContentLoaded", () => {
             const slofoodHeader = document.querySelector("slo-food-header");
 
-            // Check if the header element is found
             if (slofoodHeader) {
             slofoodHeader.navigationLinks = [
                 { label: "Home", href: "/" }
@@ -43,31 +40,14 @@
             }
             });
         </script>
-
+        <script type="module" src="/src/main"></script>
     </head>
     <body class="page">
         <mu-auth provides="slofoodguide:auth">
             <slo-food-header></slo-food-header>
-            <section class="main-page">
-                <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
-                <p>Discover the best food and drink options in SLO, whether you're in the mood for meals, snacks, or beverages!</p>
-                <p>SLO Food Guide from a <em>SLOCAL!</em></p>
-                <h2><a href="restaurant.html" class="button">Explore Restaurants</a></h2>
-                <p>
-                    <svg class="icon">
-                        <use href="icons/food.svg#icon-utensils" />
-                    </svg>
-                Find all the best places for meals, snacks, and drinks in San Luis Obispo.
-                </p>
+            <section>
+                <slofoodguide-app></slofoodguide-app>
             </section>
-        
-
-            <script>
-                document.body.addEventListener("darkmode:toggle", (event) => {
-                    const { checked } = event.detail;
-                    document.body.classList.toggle("dark-mode", checked);
-                });
-            </script>
         </mu-auth>
     </body>
 </html>

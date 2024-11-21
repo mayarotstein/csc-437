@@ -1,6 +1,6 @@
 //src/components/slofood-header.ts
 import { LitElement, css, html } from "lit";
-import { Auth, define, Dropdown, Events, Observer} from "@calpoly/mustang";
+import { Auth, define, Dropdown, Observer} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 
