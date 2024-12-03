@@ -14,6 +14,24 @@ body a:hover {
     color: var( --color-link-hover);
 }
 
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+.page > header {
+    flex-basis: min-content;
+}
+section {
+    flex-basis: auto;
+    overflow: auto;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+
+/*
 li strong {
     color: var(--color-text-list-strong);
 }
@@ -44,30 +62,7 @@ svg.icon {
     vertical-align: top;
     fill: currentColor;
 }
-.page {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-}
-.page > header {
-    flex-basis: min-content;
-}
-section {
-    flex-basis: auto;
-    overflow: auto;
-    margin: 0;
-    padding: 0.5rem;
-}
-section.main-page {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: var(--grid-gap);
-    padding: var(--grid-container-padding);
-    max-width: var(--grid-max-width);
-    margin: auto;
-    text-align: center;
-}
+
 img {
     width: 100vw;
     height: 400px;
@@ -76,20 +71,30 @@ img {
     display: block;
     border-radius: var(--img-border-radius);
 }
+
 section {
     display: grid;
-    grid-template-columns: var(--grid-columns);
     grid-gap: var(--grid-gap);
+    grid-template-columns: var(--grid-columns);
     padding: var(--grid-container-padding);
     max-width: var(--grid-max-width);
     align-items: stretch;
 
 }
 
+section.main-page {
+    display: grid;
+    grid-template-columns: var(--grid-columns-main);
+    grid-gap: var(--grid-gap);
+    padding: var(--grid-container-padding);
+    max-width: var(--grid-max-width);
+    margin: auto;
+    text-align: center;
+}
+
 section h1 {
     grid-column: 1 / -1;
     font-size: var(--size-type-xlarge);
-
 
 }
 .card {

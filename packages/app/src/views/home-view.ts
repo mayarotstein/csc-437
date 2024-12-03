@@ -1,6 +1,6 @@
 import { Auth, Observer } from "@calpoly/mustang";
 import { css, html, LitElement } from "lit";
-import { state } from "lit/decorators.js";
+//import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 
 
@@ -77,7 +77,6 @@ export class HomeViewElement extends LitElement {
       reset.styles,
       css `
         
-
         img {
           width: 100vw;
           height: 400px;
