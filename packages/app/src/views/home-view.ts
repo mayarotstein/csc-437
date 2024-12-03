@@ -41,7 +41,7 @@ export class HomeViewElement extends LitElement {
           );
       }
 
-    /*@state()
+   /*@state()
     navigationLinks: { label: string; href: string }[] = [
       { label: "Home", href: "/" }
     ];*/
