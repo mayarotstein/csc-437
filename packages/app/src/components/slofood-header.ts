@@ -8,7 +8,6 @@ function toggleDarkMode(ev: InputEvent) {
   const target = ev.target as HTMLInputElement | null;
   if (target) {
     const checked = target.checked;
-    //console.log(`Dark mode toggled: ${checked}`);
 
     const darkModeEvent = new CustomEvent("darkmode:toggle", {
       bubbles: true,
@@ -149,14 +148,12 @@ export class SloFoodHeaderElement extends LitElement {
   
   static initializeOnce() {
     if (document.body.dataset.darkModeListener === "true") {
-      //console.log("Dark mode listener already initialized.");
       return;
     }
 
     document.body.addEventListener("darkmode:toggle", (event: Event) => {
       const customEvent = event as CustomEvent<{ checked: boolean }>;
       const { checked } = customEvent.detail;
-      //console.log(`Dark mode listener triggered: ${checked}`);
       document.body.classList.toggle("dark-mode", checked);
     });
 
