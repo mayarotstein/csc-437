@@ -6,16 +6,15 @@ import reset from "../../public/styles/reset.css.ts";
 
 function toggleDarkMode(ev: InputEvent) {
   const target = ev.target as HTMLInputElement | null;
-
-  if (target && target.checked !== undefined) {
+  if (target) {
     const checked = target.checked;
+    //console.log(`Dark mode toggled: ${checked}`);
 
     const darkModeEvent = new CustomEvent("darkmode:toggle", {
       bubbles: true,
       composed: true,
       detail: { checked },
     });
-    Events.relay(ev, "dark-mode", { checked });
 
     target.dispatchEvent(darkModeEvent);
   }
@@ -24,7 +23,6 @@ function toggleDarkMode(ev: InputEvent) {
 function signOut(ev: MouseEvent) {
   Events.relay(ev, "auth:message", ["auth/signout"]);
 }
-
 
 export class SloFoodHeaderElement extends LitElement {
   static uses = define({
@@ -54,13 +52,18 @@ export class SloFoodHeaderElement extends LitElement {
           </a>
             <menu>
               <li>
-                <label @change=${toggleDarkMode}>
-                  <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
+                <label>
+                <input 
+                  type="checkbox"
+                  id="dark-mode-toggle"
+                  autocomplete="off"
+                  @change=${toggleDarkMode}
+                  />
                   <slot name="dark-mode">Dark Mode</slot>
                 </label>
               </li>
               <li class="when-signed-in">
-                <a id="signout">Sign Out</a>
+                <a id="signout" @click=${signOut}>Sign Out</a>
               </li>
               <li class="when-signed-out">
                 <a href="/login">Sign In</a>
@@ -134,25 +137,29 @@ export class SloFoodHeaderElement extends LitElement {
   );
 
   connectedCallback() {
-    super.connectedCallback()
+    super.connectedCallback();
     this._authObserver.observe(({ user }) => {
       if (user && user.username !== this.userid) {
         this.userid = user.username;
       }
     });
+
+    SloFoodHeaderElement.initializeOnce();
   }
   
   static initializeOnce() {
     if (document.body.dataset.darkModeListener === "true") {
+      //console.log("Dark mode listener already initialized.");
       return;
     }
-  
+
     document.body.addEventListener("darkmode:toggle", (event: Event) => {
-      const customEvent = event as CustomEvent;
+      const customEvent = event as CustomEvent<{ checked: boolean }>;
       const { checked } = customEvent.detail;
+      //console.log(`Dark mode listener triggered: ${checked}`);
       document.body.classList.toggle("dark-mode", checked);
     });
-  
+
     document.body.dataset.darkModeListener = "true";
   }
 }

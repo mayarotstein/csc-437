@@ -1,3 +1,6 @@
+import { css } from "lit";
+
+const styles = css`
 
 :root {
         /* tokens from lab 3 colors */
@@ -73,4 +76,6 @@
             --color-text-list-strong: #162a4a;
           
           }  
-    }
+    }`;
+
+    export default { styles };
