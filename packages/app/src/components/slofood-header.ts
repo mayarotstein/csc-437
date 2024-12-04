@@ -1,6 +1,6 @@
 //src/components/slofood-header.ts
 import { LitElement, css, html } from "lit";
-import { Auth, define, Dropdown, Observer} from "@calpoly/mustang";
+import { Auth, define, Dropdown, Observer, Events} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 
@@ -15,10 +15,16 @@ function toggleDarkMode(ev: InputEvent) {
       composed: true,
       detail: { checked },
     });
+    Events.relay(ev, "dark-mode", { checked });
 
     target.dispatchEvent(darkModeEvent);
   }
 }
+
+function signOut(ev: MouseEvent) {
+  Events.relay(ev, "auth:message", ["auth/signout"]);
+}
+
 
 export class SloFoodHeaderElement extends LitElement {
   static uses = define({

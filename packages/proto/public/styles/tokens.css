@@ -58,7 +58,7 @@
 
         /*tokens for dark mode*/
         body.dark-mode {
-            --color-background-page: #162a4a;
+            --color-background-page-inverted: #162a4a;
             --color-background-header: #6c7d8f;
             --color-text-header: #e6eef8;
             --color-text-body: #ffffff;

@@ -11,9 +11,9 @@ interface PageData {
 export class RestaurantPage {
   data: PageData;
 
-  constructor(data: PageData) {
-    this.data = data;
-  }
+constructor(data: PageData) {
+  this.data = data;
+}
 
   render() {
     return renderPage({
@@ -39,8 +39,6 @@ export class RestaurantPage {
     const { username } = guest;
     
     const api = `/api/guests/${username}`;
-
-
     const links = nav.map(this.renderNavLink);
 
     return html`
