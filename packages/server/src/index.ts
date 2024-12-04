@@ -8,6 +8,8 @@ import guests from "./routes/guests";
 import auth, { authenticateUser } from "./routes/auth";
 import { LoginPage } from "./pages/auth";
 import { getFile, saveFile } from "./services/filesystem";
+import fs from "node:fs/promises";
+import path from "path";
 
 
 
@@ -62,6 +64,14 @@ app.get(
 app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
+});
+
+// SPA Routes: /app/...
+app.use("/app", (req: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) =>
+    res.send(html)
+  );
 });
 
 //Start the server

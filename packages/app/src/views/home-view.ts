@@ -55,7 +55,7 @@ export class HomeViewElement extends LitElement {
           <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
           <p>Discover the best food and drink options in SLO, whether you're in the mood for meals, snacks, or beverages!</p>
           <p>SLO Food Guide from a <em>SLOCAL!</em></p>
-          <h2><a href="/app/guest/${this._user.username}" class="button">Explore Restaurants</a></h2>
+          <h2><a href="/app/test" class="button">Explore Restaurants</a></h2>
           <p>
             <svg class="icon">
               <use href="icons/food.svg#icon-utensils" />

@@ -3,12 +3,19 @@ import { html, LitElement } from "lit";
 import { SloFoodHeaderElement } from "./components/slofood-header";
 import { HomeViewElement } from "./views/home-view";
 import { RestaurantViewElement } from "./views/restaurant-view";
+import { TestViewElement } from "./views/test-view";
 
 const routes = [
   {
     path: "/app/guests/:id",
     view: (params: Switch.Params) => html`
       <restaurant-view guest-id=${params.id}></restaurant-view>
+    `
+  },
+  {
+    path: "/app/test",
+    view: () => html`
+      <test-view></test-view>
     `
   },
   {
@@ -27,6 +34,7 @@ class AppElement extends LitElement {
   static uses = define({
     "home-view": HomeViewElement,
     "restaurant-view": RestaurantViewElement,
+    "test-view": TestViewElement
   });
 
   protected render() {
