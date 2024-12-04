@@ -2,7 +2,10 @@ import { css, html, shadow, define, Form, Observer, Auth } from "@calpoly/mustan
 import reset from "../../public/styles/reset.css.ts";
 
 export class GuestProfile extends HTMLElement {
+    
     _user = new Auth.User();
+    _authObserver = new Observer(this, "slofoodguide:auth");
+
 
     static uses = define({
       "mu-form": Form.Element,
@@ -115,30 +118,48 @@ export class GuestProfile extends HTMLElement {
     }
   `;
 
-  get src() {
+  constructor() {
+    super();
+    shadow(this)
+      .template(GuestProfile.template)
+      .styles(reset.styles, GuestProfile.styles);
+
+    this._authObserver = new Observer(this, "slofoodguide:auth");
+
+    this._initializeEventListeners();
+  }
+
+  static observedAttributes = ["src"];
+
+
+  get src(): string | null {
     return this.getAttribute("src");
   }
-  
-  get form() {
-    return this?.shadowRoot?.querySelector("mu-form.edit");
+
+  get form(): Form.Element | null {
+    return this.shadowRoot?.querySelector("mu-form.edit") || null;
   }
 
-  get mode() {
+  get mode(): string | null {
     return this.getAttribute("mode");
   }
-  
-  set mode(m) {
-    this.setAttribute("mode", m);
+
+  set mode(value: string | null) {
+    if (value) {
+      this.setAttribute("mode", value);
+    }
   }
 
-  get editButton() {
-    return this?.shadowRoot?.getElementById("edit");
-  }
-  get favoritemealInput() {
-    return this?.shadowRoot?.querySelector('input[type="file"]');
+    get editButton(): HTMLElement | null {
+    return this.shadowRoot?.getElementById("edit") || null;
   }
 
-  constructor() {
+  get favoritemealInput(): HTMLInputElement | null {
+    return (
+      this.shadowRoot?.querySelector('input[type="file"]') as HTMLInputElement
+    ) || null;
+  }
+  /*constructor() {
     super();
     shadow(this)
       .template(GuestProfile.template)
@@ -156,123 +177,114 @@ export class GuestProfile extends HTMLElement {
       this.addEventListener("mu-form:submit", (event) =>
       this.submit(this.src, event.detail)
     );
-  }
-
-  _authObserver = new Observer(this, "slofoodguide:auth");
+  }*/
 
   connectedCallback() {
     this._authObserver.observe(({ user }) => {
       this._user = user;
-      if (this.src && this.mode !== "new")
+      if (this.src && this.mode !== "new") {
         this.hydrate(this.src);
+      }
     });
   }
 
-  static observedAttributes = ["src"];
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (
-      name === "src" &&
-      oldValue !== newValue &&
-      oldValue &&
-      newValue &&
-      this.mode !== "new"
-    )
-      this.hydrate(newValue);
+  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+    if (name === "src" && oldValue !== newValue && this.mode !== "new") {
+      this.hydrate(newValue as string);
+    }
   }
 
-  get authorization() {
-    return (
-      this._user?.authenticated && {
-        Authorization: `Bearer ${this._user.token}`
-      }
-    );
+  get authorization(): Record<string, string> | undefined {
+    return this._user?.authenticated
+      ? { Authorization: `Bearer ${this._user.token}` }
+      : undefined;
   }
 
-  hydrate(url) {
+
+  hydrate(url: string) {
     fetch(url, { headers: this.authorization })
       .then((res) => {
-        if (res.status !== 200) throw `Status: ${res.status}`;
+        if (res.status !== 200) throw new Error(`Status: ${res.status}`);
         return res.json();
       })
       .then((json) => {
         this.renderSlots(json);
-        this.form.init = json;
+        if (this.form) this.form.init = json;
         this.mode = "view";
       })
       .catch((error) => {
-        console.log(`Failed to render data ${url}:`, error);
+        console.error(`Failed to render data from ${url}:`, error);
       });
   }
 
-  renderSlots(json) {
-  const entries = Object.entries(json);
-  const toSlot = ([key, value]) =>{
-    switch (key) {
-      case "favoritemeal":
-        return html`<img slot="${key}" src="${value}" />`;
-      
-      default:
-        return html`<span slot="${key}">${value}</span>`;
-    }
-  };
-  const fragment = entries.map(toSlot);
+  renderSlots(json: Record<string, any>) {
+    const entries = Object.entries(json);
+    const fragment = entries.map(([key, value]) => {
+      switch (key) {
+        case "favoritemeal":
+          return html`<img slot="${key}" src="${value}" />`;
+        default:
+          return html`<span slot="${key}">${value}</span>`;
+      }
+    });
 
-  this.replaceChildren(...fragment);
-}
+    this.replaceChildren(...fragment);
+  }
 
-  submit(url, json) {
+  submit(url: string | null, json: Record<string, any>) {
     const method = this.mode === "new" ? "POST" : "PUT";
 
-    if (this._favoritemeal) json.favoritemeal = this._favoritemeal;
+    if (this._favoritemeal) {
+      json.favoritemeal = this._favoritemeal;
+    }
 
-    fetch(url, {
+    fetch(url as string, {
       method,
       headers: {
         "Content-Type": "application/json",
-        ...this.authorization
+        ...this.authorization,
       },
-      body: JSON.stringify(json)
+      body: JSON.stringify(json),
     })
       .then((res) => {
         if (res.status !== (this.mode === "new" ? 201 : 200))
-          throw `Status: ${res.status}`;
+          throw new Error(`Status: ${res.status}`);
         return res.json();
       })
-      .then((json) => {
-        this.renderSlots(json);
-        this.form.init = json;
+      .then((data) => {
+        this.renderSlots(data);
+        if (this.form) this.form.init = data;
         this.mode = "view";
       })
-      .catch((error) => {
-        console.log(`Failed to submit ${url}:`, error);
-      });
+      .catch((error) => console.error(`Failed to submit to ${url}:`, error));
   }
 
-  handleFavoritemealSelected(ev) {
-    const target = ev.target;
-    const selectedFile = target.files[0];
+  handleFavoritemealSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const selectedFile = target.files?.[0];
 
-    const reader = new Promise((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload = () => resolve(fr.result);
-      fr.onerror = (err) => reject(err);
-      fr.readAsDataURL(selectedFile);
-    });
+    if (!selectedFile) return;
 
-    reader.then((result) => (this.favoritemeal = result));
+    const reader = new FileReader();
+    reader.onload = () => (this._favoritemeal = reader.result as string);
+    reader.onerror = (err) => console.error("FileReader error:", err);
+    reader.readAsDataURL(selectedFile);
   }
-}
 
-
-function relayEvent(event, eventName, detail) {
-    event.stopPropagation();
-
-    const customEvent = new CustomEvent(eventName, {
-        bubbles: true,
-        detail,
-        composed: true,
+  private _initializeEventListeners() {
+    this.editButton?.addEventListener("click", () => {
+      this.mode = "edit";
     });
 
-    event.target.dispatchEvent(customEvent);
+    this.favoritemealInput?.addEventListener("change", (event) => {
+      this.handleFavoritemealSelected(event);
+    });
+
+    this.addEventListener("mu-form:submit", (event: Event) => {
+      const detail = (event as CustomEvent).detail;
+      this.submit(this.src, detail);
+    });
+  }
+
+  private _favoritemeal?: string;
 }
