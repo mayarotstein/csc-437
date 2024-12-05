@@ -1,6 +1,5 @@
 import { LitElement, css, html } from "lit";
 import { define, Form, Observer, Auth } from "@calpoly/mustang";
-//import reset from "../../public/styles/reset.css.ts";
 import { state } from "lit/decorators.js";
 import {Guest} from "server/models";
 
@@ -139,7 +138,7 @@ export class GuestProfile extends LitElement {
     }
   }
 
-    get editButton(): HTMLElement | null {
+  get editButton(): HTMLElement | null {
     return this.shadowRoot?.getElementById("edit") || null;
   }
 
@@ -148,25 +147,24 @@ export class GuestProfile extends LitElement {
       this.shadowRoot?.querySelector('input[type="file"]') as HTMLInputElement
     ) || null;
   }
-  /*constructor() {
-    super();
-    shadow(this)
-      .template(GuestProfile.template)
-      .styles(reset.styles, GuestProfile.styles);
 
-      this?.editButton?.addEventListener(
-        "click",
-        () => (this.mode = "edit")
-      );
-
-      this?.favoritemealInput?.addEventListener("change", (event) =>
-      this.handleFavoritemealSelected(event)
-    );
-
-      this.addEventListener("mu-form:submit", (event) =>
-      this.submit(this.src, event.detail)
-    );
-  }*/
+  hydrate(url: string) {
+    fetch(url, {
+      headers: Auth.headers(this._user),
+    })
+      .then((res) => {
+        if (res.status !== 200) throw new Error(`Status: ${res.status}`);
+        if (!res.body) throw new Error("Empty response body");
+        return res.json();
+      })
+      .then((json) => {
+        console.log("Fetched data:", json); // Log to verify structure
+        this.guest = json as Guest;
+      })
+      .catch((error) => {
+        console.error(`Failed to render data from ${url}:`, error);
+      });
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -185,18 +183,6 @@ export class GuestProfile extends LitElement {
     }
   }
 
-
-  hydrate(url: string) {
-    fetch(url, { 
-      headers: Auth.headers(this._user) })
-      .then((res) => {
-        if (res.status !== 200) throw new Error(`Status: ${res.status}`);
-        return res.json();
-      })
-      .catch((error) => {
-        console.error(`Failed to render data from ${url}:`, error);
-      });
-  }
 
   handleFavoritemealSelected(event: Event) {
     const target = event.target as HTMLInputElement;

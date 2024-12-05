@@ -1,10 +1,13 @@
-import { Auth, Observer } from "@calpoly/mustang";
-import { css, html, LitElement } from "lit";
+import { Auth, Observer, View } from "@calpoly/mustang";
+import { css, html } from "lit";
 //import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
+import { Msg } from "../messages";
+import { Model } from "../model";
 
 
-export class HomeViewElement extends LitElement {
+
+export class HomeViewElement extends View<Model, Msg> {
 
     //api source and user
     src = `/api/guests/`;
@@ -40,12 +43,6 @@ export class HomeViewElement extends LitElement {
             console.log("Failed to convert main data:", err)
           );
       }
-
-   /*@state()
-    navigationLinks: { label: string; href: string }[] = [
-      { label: "Home", href: "/" }
-    ];*/
-
 
     render() {
 

@@ -1,19 +1,30 @@
-import { define } from "@calpoly/mustang";
-import { css, html, LitElement } from "lit";
-//import { state } from "lit/decorators.js";
+import { define, View } from "@calpoly/mustang";
+import { css, html } from "lit";
+import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 import { GuestProfile } from "../components/guest.ts";
 import { property } from "lit/decorators.js";
+import { Msg } from "../messages";
+import { Model } from "../model";
+import { Guest } from "server/models";
 
-export class RestaurantViewElement extends LitElement {
+export class RestaurantViewElement extends View<Model, Msg> {
 
 
     static uses = define({
         "guest-profile": GuestProfile
     })
 
+    @property()
+    userid?: string;
+
     @property({attribute: "guest-id"})
     guestId?: string;
+
+    @state()
+    get profile(): Guest | undefined {
+      return this.model.profile;
+    }
 
     render() {
 
@@ -128,4 +139,22 @@ export class RestaurantViewElement extends LitElement {
             flex-grow: 1;
         }`
     ];
+
+    constructor() {
+      super("blazing:model");
+    }
+  
+    attributeChangedCallback(
+      name: string,
+      old: string | null,
+      value: string | null
+    ) {
+      super.attributeChangedCallback(name, old, value);
+  
+      if (name === "userid" && old !== value && value)
+        this.dispatchMessage([
+          "profile/select",
+          { userid: value }
+        ]);
+    }
 }

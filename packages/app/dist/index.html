@@ -21,16 +21,17 @@
               }
             }
         </script>
-      <script type="module" crossorigin src="/assets/index-BPFjs1Di.js"></script>
+      <script type="module" crossorigin src="/assets/index-ByCzfAc2.js"></script>
     </head>
     <body class="page">
         <mu-history provides="slofoodguide:history">
             <mu-auth provides="slofoodguide:auth" redirect="/login">
-                <slo-food-header></slo-food-header>
-                <section>
-                    <mu-switch></mu-switch>
-                </section>
-              </mu-store>
+                <mu-store provides="slofoodguide:model">
+                    <slo-food-header></slo-food-header>
+                    <section>
+                        <slofoodguide-app></slofoodguide-app>
+                    </section>
+                </mu-store>
             </mu-auth>
         </mu-history>
     </body>

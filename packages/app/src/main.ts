@@ -1,6 +1,9 @@
-import { Auth, define, History, Switch} from "@calpoly/mustang";
+import { Auth, define, History, Switch, Store} from "@calpoly/mustang";
 import { html, LitElement } from "lit";
 import { SloFoodHeaderElement } from "./components/slofood-header";
+import { Msg } from "./messages";
+import { Model, init } from "./model";
+import update from "./update";
 import { HomeViewElement } from "./views/home-view";
 import { RestaurantViewElement } from "./views/restaurant-view";
 import { TestViewElement } from "./views/test-view";
@@ -52,11 +55,21 @@ class AppElement extends LitElement {
 define({
   "mu-auth": Auth.Provider,
   "mu-history": History.Provider,
+  "mu-store": class AppStore extends Store.Provider<
+    Model,
+    Msg
+  > {
+    constructor() {
+      super(update, init, "slofoodguide:auth");
+    }
+  },
   "mu-switch": class AppSwitch extends Switch.Element {
     constructor() {
       super(routes, "slofoodguide:history", "slofoodguide:auth");
     }
   },
   "slofoodguide-app": AppElement,
-  "slo-food-header": SloFoodHeaderElement
+  "slo-food-header": SloFoodHeaderElement,
+  "home-view": HomeViewElement,
+  "restaurant-view": RestaurantViewElement
 });

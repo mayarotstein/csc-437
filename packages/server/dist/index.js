@@ -60,6 +60,18 @@ app.get(
     });
   }
 );
+app.get("/api/guests/:username", import_auth.authenticateUser, (req, res) => {
+  const { username } = req.params;
+  import_guest_svc.default.get(username).then((guest) => {
+    if (!guest) {
+      return res.status(404).json({ error: "Guest not found" });
+    }
+    res.json(guest);
+  }).catch((err) => {
+    console.error("Error fetching guest:", err);
+    res.status(500).json({ error: "Failed to fetch guest" });
+  });
+});
 app.get("/login", (req, res) => {
   const page = new import_auth2.LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
