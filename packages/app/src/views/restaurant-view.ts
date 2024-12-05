@@ -1,46 +1,19 @@
-import { Auth, Observer, define } from "@calpoly/mustang";
+import { define } from "@calpoly/mustang";
 import { css, html, LitElement } from "lit";
 //import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 import { GuestProfile } from "../components/guest.ts";
+import { property } from "lit/decorators.js";
 
 export class RestaurantViewElement extends LitElement {
 
-    _user = new Auth.User();
 
     static uses = define({
         "guest-profile": GuestProfile
     })
-    //api source and user
-    src = `/api/guests/`;
-    
 
-    _authObserver = new Observer<Auth.Model>(
-        this,
-        "slofoodguide:auth"
-      );
-
-
-    connectedCallback() {
-        super.connectedCallback();
-        this._authObserver.observe(({ user }) => {
-          if (user) {
-            this._user = user;
-          }
-          this.hydrate(this.src);
-        });
-      }
-
-      hydrate(url: string) {
-        fetch(url, {
-          headers: Auth.headers(this._user),
-        })
-          .then((res: Response) => {
-            if (res.status === 200) return res.json();
-            throw `Server responded with status ${res.status}`;
-          })
-          .catch((err) => console.log("Failed to load main data:", err));
-      }
+    @property({attribute: "guest-id"})
+    guestId?: string;
 
     render() {
 
@@ -50,7 +23,7 @@ export class RestaurantViewElement extends LitElement {
             <section>
                 <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
                 <div class="card">
-                    <guest-profile src="/api/guests/${this._user.username}">
+                    <guest-profile src="/api/guests/${this.guestId}">
                     </guest-profile>
                 </div>
                 <div class="card">

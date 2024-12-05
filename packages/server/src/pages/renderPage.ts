@@ -14,7 +14,6 @@ const defaults = {
   scripts: [
     `import { define, Auth, Observer } from "@calpoly/mustang";
     import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
-    import { GuestProfile } from "/scripts/guest.js";
 
     define({
       "slo-food-header": SloFoodHeaderElement,

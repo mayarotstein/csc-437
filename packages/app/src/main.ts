@@ -7,7 +7,7 @@ import { TestViewElement } from "./views/test-view";
 
 const routes = [
   {
-    path: "/app/guests/:id",
+    path: "/app/guest/:id",
     view: (params: Switch.Params) => html`
       <restaurant-view guest-id=${params.id}></restaurant-view>
     `

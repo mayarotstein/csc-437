@@ -79,6 +79,7 @@ section {
     padding: var(--grid-container-padding);
     max-width: var(--grid-max-width);
     align-items: stretch;
+
 }
 
 section.main-page {

@@ -1,25 +1,36 @@
-import { css, html, shadow, define, Form, Observer, Auth } from "@calpoly/mustang";
-import reset from "../../public/styles/reset.css.ts";
+import { LitElement, css, html } from "lit";
+import { define, Form, Observer, Auth } from "@calpoly/mustang";
+//import reset from "../../public/styles/reset.css.ts";
+import { state } from "lit/decorators.js";
+import {Guest} from "server/models";
 
-export class GuestProfile extends HTMLElement {
+export class GuestProfile extends LitElement {
     
     _user = new Auth.User();
-    _authObserver = new Observer(this, "slofoodguide:auth");
+    _authObserver = new Observer<Auth.Model> (this, "slofoodguide:auth");
 
 
     static uses = define({
       "mu-form": Form.Element,
     });
 
-    static template = html`
+    @state()
+    guest?: Guest;
+
+    render() {
+
+      const {
+        username, favoritemeal, nickname, partysize} = this.guest || {};
+        
+      return html`
         <template>
           <section class="view">
             <div class="card">
               <h2>Your Profile</h2>
-              <p>Username: <slot name="username"></slot></p>
-              <slot name="favoritemeal"></slot>
-              <p>Nickname: <slot name="nickname"></slot></p>
-              <p>Party Size: <slot name="partysize"></slot></p>
+              <p>Username: ${username}</p>
+              ${favoritemeal}
+              <p>Nickname: ${nickname}</p>
+              <p>Party Size: ${partysize}</p>
               <button id="edit" class="button">Edit</a>
             </div>
           </section>
@@ -44,7 +55,7 @@ export class GuestProfile extends HTMLElement {
             </mu-form>
           </div>
         </template>
-  `;
+  `;}
 
 
   static styles = css`
@@ -118,30 +129,8 @@ export class GuestProfile extends HTMLElement {
     }
   `;
 
-  constructor() {
-    super();
-    shadow(this)
-      .template(GuestProfile.template)
-      .styles(reset.styles, GuestProfile.styles);
-
-    this._authObserver = new Observer(this, "slofoodguide:auth");
-
-    this._initializeEventListeners();
-  }
-
-  static observedAttributes = ["src"];
-
-
   get src(): string | null {
     return this.getAttribute("src");
-  }
-
-  get form(): Form.Element | null {
-    return this.shadowRoot?.querySelector("mu-form.edit") || null;
-  }
-
-  get mode(): string | null {
-    return this.getAttribute("mode");
   }
 
   set mode(value: string | null) {
@@ -180,8 +169,10 @@ export class GuestProfile extends HTMLElement {
   }*/
 
   connectedCallback() {
+    super.connectedCallback();
     this._authObserver.observe(({ user }) => {
-      this._user = user;
+      if (user) {
+      this._user = user;}
       if (this.src && this.mode !== "new") {
         this.hydrate(this.src);
       }
@@ -194,69 +185,17 @@ export class GuestProfile extends HTMLElement {
     }
   }
 
-  get authorization(): Record<string, string> | undefined {
-    return this._user?.authenticated
-      ? { Authorization: `Bearer ${this._user.token}` }
-      : undefined;
-  }
-
 
   hydrate(url: string) {
-    fetch(url, { headers: this.authorization })
+    fetch(url, { 
+      headers: Auth.headers(this._user) })
       .then((res) => {
         if (res.status !== 200) throw new Error(`Status: ${res.status}`);
         return res.json();
       })
-      .then((json) => {
-        this.renderSlots(json);
-        if (this.form) this.form.init = json;
-        this.mode = "view";
-      })
       .catch((error) => {
         console.error(`Failed to render data from ${url}:`, error);
       });
-  }
-
-  renderSlots(json: Record<string, any>) {
-    const entries = Object.entries(json);
-    const fragment = entries.map(([key, value]) => {
-      switch (key) {
-        case "favoritemeal":
-          return html`<img slot="${key}" src="${value}" />`;
-        default:
-          return html`<span slot="${key}">${value}</span>`;
-      }
-    });
-
-    this.replaceChildren(...fragment);
-  }
-
-  submit(url: string | null, json: Record<string, any>) {
-    const method = this.mode === "new" ? "POST" : "PUT";
-
-    if (this._favoritemeal) {
-      json.favoritemeal = this._favoritemeal;
-    }
-
-    fetch(url as string, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        ...this.authorization,
-      },
-      body: JSON.stringify(json),
-    })
-      .then((res) => {
-        if (res.status !== (this.mode === "new" ? 201 : 200))
-          throw new Error(`Status: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        this.renderSlots(data);
-        if (this.form) this.form.init = data;
-        this.mode = "view";
-      })
-      .catch((error) => console.error(`Failed to submit to ${url}:`, error));
   }
 
   handleFavoritemealSelected(event: Event) {
@@ -271,20 +210,5 @@ export class GuestProfile extends HTMLElement {
     reader.readAsDataURL(selectedFile);
   }
 
-  private _initializeEventListeners() {
-    this.editButton?.addEventListener("click", () => {
-      this.mode = "edit";
-    });
-
-    this.favoritemealInput?.addEventListener("change", (event) => {
-      this.handleFavoritemealSelected(event);
-    });
-
-    this.addEventListener("mu-form:submit", (event: Event) => {
-      const detail = (event as CustomEvent).detail;
-      this.submit(this.src, detail);
-    });
-  }
-
-  private _favoritemeal?: string;
+  _favoritemeal?: string;
 }
