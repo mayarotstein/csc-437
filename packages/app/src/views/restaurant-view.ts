@@ -170,7 +170,7 @@ export class RestaurantViewElement extends View<Model, Msg> {
     ];
 
     constructor() {
-      super("blazing:model");
+      super("slofoodguide:model");
     }
   
     attributeChangedCallback(

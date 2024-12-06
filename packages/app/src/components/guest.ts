@@ -1,7 +1,10 @@
 import { LitElement, css, html } from "lit";
-import { define, Form, Observer, Auth } from "@calpoly/mustang";
+import { define, Form, Observer, Auth, View, InputArray } from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { Guest } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
 
 export class GuestProfile extends LitElement {
     
@@ -15,6 +18,9 @@ export class GuestProfile extends LitElement {
 
     @state()
     guest?: Guest;
+    @state()
+    editMode = false;
+
 
     render() {
 
@@ -22,46 +28,55 @@ export class GuestProfile extends LitElement {
         username, favoritemeal, nickname, partysize} = this.guest || {};
       
         console.log(this.guest)
-      return html`
+      return this.editMode
+          ? html`<edit-guest-profile .guest=${this.guest}></edit-guest-profile>`
+          : html`
           <section class="view">
-              <h2>Your Profile</h2>
-              <p>Username: ${username}</p>
-              <img src=${favoritemeal}>
-              <p>Nickname: ${nickname}</p>
-              <p>Party Size: ${partysize}</p>
-              <button id="edit" class="button">Edit</a>
+            <h2>Your Profile</h2>
+            <p>Username: ${username}</p>
+            <img src=${favoritemeal} alt="Favorite Meal" />
+            <p>Nickname: ${nickname}</p>
+            <p>Party Size: ${partysize}</p>
+            <button id="edit" class="button" @click=${this.toggleEditMode}>Edit</button>
           </section>
-            <mu-form class="edit">
-              <h3><label>
-                <span>Username</span>
-                <input name="username" />
-              </label></h2>
-              <h3><label>
-                <span>Favorite Meal</span>
-                <input type="file" name="favoritemeal" />
-              </label></h2>
-              <h3><label>
-                <span>Nickname</span>
-                <input name="nickname" />
-              </label></h2>
-              <h3><label>
-                <span>Party Size</span>
-                <input name="partysize" />
-              </label></h2>
-            </mu-form>
-  `;}
+        `;
+      ;}
+
+      toggleEditMode() {
+        this.editMode = !this.editMode;
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this._authObserver.observe(({ user }) => {
+          if (user) {
+          this._user = user;}
+          if (this.src && this.mode !== "new") {
+            this.hydrate(this.src);
+          }
+        });
+      }
+
+      hydrate(url: string) {
+        fetch(url, {
+          headers: Auth.headers(this._user),
+        })
+          .then((res) => {
+            if (res.status !== 200) throw new Error(`Status: ${res.status}`);
+            return res.json();
+          })
+          .then((json) => {
+            this.guest = json as Guest;
+          })
+          .catch((error) => {
+            console.error(`Failed to render data from ${url}:`, error);
+          });
+      }
 
 
   static styles = css`
     :host {
       display: contents;
-    }
-    :host([mode="edit"]),
-    :host([mode="new"]) {
-      --display-view-none: none;
-    }
-    :host([mode="view"]) {
-      //--display-editor-none: none;
     }
 
     h2{
@@ -71,13 +86,6 @@ export class GuestProfile extends LitElement {
         grid-column: 1 / -1;
         margin: 0;
     }
-
-    h3{
-      font-family: var(--font-family-display);
-      font-size: var(--size-type-mlarge);
-      font-weight: var(--font-weight-normal);
-      grid-column: 1 / -1;
-  }
 
     p {
         font-size: var(--size-type-medium);
@@ -109,26 +117,9 @@ export class GuestProfile extends LitElement {
     button:hover {
       background-color: var(--color-button-hover);
     }
-
-    mu-form.edit {
-      display: var(--display-editor-none, grid);
-    }
-
-    mu-form.edit h3,
-    mu-form.edit label,
-    mu-form.edit input {
-    margin: 0; /* Remove all default margins */
-    padding: 0; /* Ensure no extra padding */
-  }
-
-    mu-form.edit {
-      gap: var(--size-spacing-medium); /* Add controlled spacing between form fields */
-      display: grid; /* Use grid layout for alignment */
-      grid-template-columns: 1fr; /* Single column for fields */
-      margin: 0;
-      padding: 0;
-    }
   `;
+
+  
 
   get src(): string | null {
     return this.getAttribute("src");
@@ -140,42 +131,14 @@ export class GuestProfile extends LitElement {
     }
   }
 
-  get editButton(): HTMLElement | null {
+  /*get editButton(): HTMLElement | null {
     return this.shadowRoot?.getElementById("edit") || null;
-  }
+  }*/
 
   get favoritemealInput(): HTMLInputElement | null {
     return (
       this.shadowRoot?.querySelector('input[type="file"]') as HTMLInputElement
     ) || null;
-  }
-
-  hydrate(url: string) {
-    fetch(url, {
-      headers: Auth.headers(this._user),
-    })
-      .then((res) => {
-        if (res.status !== 200) throw new Error(`Status: ${res.status}`);
-        if (!res.body) throw new Error("Empty response body");
-        return res.json();
-      })
-      .then((json) => {
-        this.guest = json as Guest;
-      })
-      .catch((error) => {
-        console.error(`Failed to render data from ${url}:`, error);
-      });
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    this._authObserver.observe(({ user }) => {
-      if (user) {
-      this._user = user;}
-      if (this.src && this.mode !== "new") {
-        this.hydrate(this.src);
-      }
-    });
   }
 
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
@@ -185,7 +148,7 @@ export class GuestProfile extends LitElement {
   }
 
 
-  handleFavoritemealSelected(event: Event) {
+  /*handleFavoritemealSelected(event: Event) {
     const target = event.target as HTMLInputElement;
     const selectedFile = target.files?.[0];
 
@@ -198,4 +161,6 @@ export class GuestProfile extends LitElement {
   }
 
   _favoritemeal?: string;
+}*/
+
 }

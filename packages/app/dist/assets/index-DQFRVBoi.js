@@ -202,7 +202,7 @@ Expecting `+xt.join(", ")+", got '"+(this.terminals_[$]||$)+"'":Yt="Parse error 
   }
   `,At={styles:Hr};var Ir=Object.defineProperty,Ys=(r,t,e,s)=>{for(var i=void 0,n=r.length-1,o;n>=0;n--)(o=r[n])&&(i=o(t,e,i)||i);return i&&Ir(t,e,i),i};function Dr(r){const t=r.target;if(t){const e=t.checked,s=new CustomEvent("darkmode:toggle",{bubbles:!0,composed:!0,detail:{checked:e}});t.dispatchEvent(s)}}function Fr(r){fs.relay(r,"auth:message",["auth/signout"])}var R;const $e=(R=class extends T{constructor(){super(...arguments),this.userid="guest",this.navigationLinks=[],this._authObserver=new x(this,"slofoodguide:auth")}render(){return A`
       <header>
-        <h1>San Luis Obispo Food Guide</h1>
+        <h1><a class="title" href="/">San Luis Obispo Food Guide</a></h1>
         <nav>
           ${this.navigationLinks.map(t=>A`<a href=${t.href}>${t.label}</a>`)}
         </nav>
@@ -241,6 +241,10 @@ Expecting `+xt.join(", ")+", got '"+(this.terminals_[$]||$)+"'":Yt="Parse error 
       padding: var(--size-spacing-medium);
       background-color: var(--color-background-header);
       color: var(--color-text-header);
+    }
+    .title {
+      text-decoration: none;
+      color: currentColor;
     }
 
     h1 {
@@ -504,7 +508,7 @@ Expecting `+xt.join(", ")+", got '"+(this.terminals_[$]||$)+"'":Yt="Parse error 
             </section>
           </main>
         </body>
-    `}constructor(){super("blazing:model")}attributeChangedCallback(t,e,s){super.attributeChangedCallback(t,e,s),t==="userid"&&e!==s&&s&&this.dispatchMessage(["profile/select",{userid:s}])}};Mt.uses=B({"guest-profile":_t}),Mt.styles=[At.styles,q`
+    `}constructor(){super("slofoodguide:model")}attributeChangedCallback(t,e,s){super.attributeChangedCallback(t,e,s),t==="userid"&&e!==s&&s&&this.dispatchMessage(["profile/select",{userid:s}])}};Mt.uses=B({"guest-profile":_t}),Mt.styles=[At.styles,q`
       section {
         display: grid;
         grid-gap: var(--grid-gap);

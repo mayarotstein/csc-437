@@ -37,7 +37,7 @@ export class SloFoodHeaderElement extends LitElement {
   render() {
     return html`
       <header>
-        <h1>San Luis Obispo Food Guide</h1>
+        <h1><a class="title" href="/">San Luis Obispo Food Guide</a></h1>
         <nav>
           ${this.navigationLinks.map(
             (link) =>
@@ -84,6 +84,10 @@ export class SloFoodHeaderElement extends LitElement {
       padding: var(--size-spacing-medium);
       background-color: var(--color-background-header);
       color: var(--color-text-header);
+    }
+    .title {
+      text-decoration: none;
+      color: currentColor;
     }
 
     h1 {
@@ -160,3 +164,5 @@ export class SloFoodHeaderElement extends LitElement {
     document.body.dataset.darkModeListener = "true";
   }
 }
+
+
