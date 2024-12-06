@@ -7,12 +7,19 @@ import update from "./update";
 import { HomeViewElement } from "./views/home-view";
 import { RestaurantViewElement } from "./views/restaurant-view";
 import { TestViewElement } from "./views/test-view";
+import { MealViewElement } from "./views/meal-view";
 
 const routes = [
   {
     path: "/app/guest/:id",
     view: (params: Switch.Params) => html`
       <restaurant-view guest-id=${params.id}></restaurant-view>
+    `
+  },
+  {
+    path: "/app/meal",
+    view: () => html`
+      <meal-view></meal-view>
     `
   },
   {
@@ -71,5 +78,6 @@ define({
   "slofoodguide-app": AppElement,
   "slo-food-header": SloFoodHeaderElement,
   "home-view": HomeViewElement,
-  "restaurant-view": RestaurantViewElement
+  "restaurant-view": RestaurantViewElement,
+  "meal-view": MealViewElement
 });

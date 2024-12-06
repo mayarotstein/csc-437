@@ -61,21 +61,6 @@ app.get(
   }
 );
 
-//getting the guest data as a json not text/html
-app.get("/api/guests/:username", authenticateUser, (req: Request, res: Response) => {
-  const { username } = req.params;
-
-  Guests.get(username).then((guest) => {
-    if (!guest) {
-      return res.status(404).json({ error: "Guest not found" });
-    }
-    res.json(guest); // Respond with JSON data
-  }).catch((err) => {
-    console.error("Error fetching guest:", err);
-    res.status(500).json({ error: "Failed to fetch guest" });
-  });
-});
-
 
 app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();

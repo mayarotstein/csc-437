@@ -121,8 +121,10 @@ export class SloFoodHeaderElement extends HTMLElement {
 
   connectedCallback() {
     this._authObserver.observe(({ user }) => {
-      if (user && user.username !== this.userid) {
+      if (user && user.username) {
         this.userid = user.username;
+      } else {
+        this.userid = "anonymous";
       }
     });
   }

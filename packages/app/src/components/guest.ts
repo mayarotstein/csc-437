@@ -1,7 +1,7 @@
 import { LitElement, css, html } from "lit";
 import { define, Form, Observer, Auth } from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
-import {Guest} from "server/models";
+import { Guest } from "server/models";
 
 export class GuestProfile extends LitElement {
     
@@ -20,40 +20,35 @@ export class GuestProfile extends LitElement {
 
       const {
         username, favoritemeal, nickname, partysize} = this.guest || {};
-        
+      
+        console.log(this.guest)
       return html`
-        <template>
           <section class="view">
-            <div class="card">
               <h2>Your Profile</h2>
               <p>Username: ${username}</p>
-              ${favoritemeal}
+              <img src=${favoritemeal}>
               <p>Nickname: ${nickname}</p>
               <p>Party Size: ${partysize}</p>
               <button id="edit" class="button">Edit</a>
-            </div>
           </section>
-          <div class="card">
             <mu-form class="edit">
-              <h2><label>
+              <h3><label>
                 <span>Username</span>
                 <input name="username" />
               </label></h2>
-              <h2><label>
+              <h3><label>
                 <span>Favorite Meal</span>
                 <input type="file" name="favoritemeal" />
               </label></h2>
-              <h2><label>
+              <h3><label>
                 <span>Nickname</span>
                 <input name="nickname" />
               </label></h2>
-              <h2><label>
+              <h3><label>
                 <span>Party Size</span>
                 <input name="partysize" />
               </label></h2>
             </mu-form>
-          </div>
-        </template>
   `;}
 
 
@@ -66,46 +61,38 @@ export class GuestProfile extends LitElement {
       --display-view-none: none;
     }
     :host([mode="view"]) {
-      --display-editor-none: none;
+      //--display-editor-none: none;
     }
-
-    section.view {
-      display: var(--display-view-none, grid);
-    }
-    
-    .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      border: var(--card-border-color);
-      border-radius: var(--card-border-radius);
-      padding: var(--size-spacing-medium);
-      background-color: var(--card-background-color);
-      gap: var(--size-spacing-medium);
-      flex-grow: 1;
-      }
 
     h2{
         font-family: var(--font-family-display);
         font-size: var(--size-type-large);
         font-weight: var(--font-weight-normal);
         grid-column: 1 / -1;
+        margin: 0;
     }
+
+    h3{
+      font-family: var(--font-family-display);
+      font-size: var(--size-type-mlarge);
+      font-weight: var(--font-weight-normal);
+      grid-column: 1 / -1;
+  }
 
     p {
         font-size: var(--size-type-medium);
     }
 
     img {
-        width: 100vw;
-        height: 400px;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-        border-radius: var(--img-border-radius);
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: var(--img-border-radius);
     }
 
-    .button {
+    button {
       display: inline-block;
       padding: var(--size-spacing-medium);
       font-size: var(--size-type-medium);
@@ -119,12 +106,27 @@ export class GuestProfile extends LitElement {
       transition: background-color 0.3s ease;
     }
 
-    .button:hover {
+    button:hover {
       background-color: var(--color-button-hover);
     }
 
     mu-form.edit {
       display: var(--display-editor-none, grid);
+    }
+
+    mu-form.edit h3,
+    mu-form.edit label,
+    mu-form.edit input {
+    margin: 0; /* Remove all default margins */
+    padding: 0; /* Ensure no extra padding */
+  }
+
+    mu-form.edit {
+      gap: var(--size-spacing-medium); /* Add controlled spacing between form fields */
+      display: grid; /* Use grid layout for alignment */
+      grid-template-columns: 1fr; /* Single column for fields */
+      margin: 0;
+      padding: 0;
     }
   `;
 
@@ -158,7 +160,6 @@ export class GuestProfile extends LitElement {
         return res.json();
       })
       .then((json) => {
-        console.log("Fetched data:", json); // Log to verify structure
         this.guest = json as Guest;
       })
       .catch((error) => {

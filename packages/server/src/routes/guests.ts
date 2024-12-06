@@ -16,7 +16,7 @@ router.get("/:userid", (req: Request, res: Response) => {
     const { userid } = req.params;
   
     Guests.get(userid)
-      .then((traveler: Guest) => res.json(traveler))
+      .then((guest: Guest) => res.json(guest))
       .catch((err) => res.status(404).send(err));
   });
 

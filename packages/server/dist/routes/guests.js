@@ -39,7 +39,7 @@ router.get("/", (_, res) => {
 });
 router.get("/:userid", (req, res) => {
   const { userid } = req.params;
-  import_guest_svc.default.get(userid).then((traveler) => res.json(traveler)).catch((err) => res.status(404).send(err));
+  import_guest_svc.default.get(userid).then((guest) => res.json(guest)).catch((err) => res.status(404).send(err));
 });
 router.post("/", (req, res) => {
   const newGuest = req.body;

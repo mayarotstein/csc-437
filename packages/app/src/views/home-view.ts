@@ -1,6 +1,6 @@
 import { Auth, Observer, View } from "@calpoly/mustang";
 import { css, html } from "lit";
-//import { state } from "lit/decorators.js";
+import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 import { Msg } from "../messages";
 import { Model } from "../model";
@@ -11,7 +11,9 @@ export class HomeViewElement extends View<Model, Msg> {
 
     //api source and user
     src = `/api/guests/`;
-    _user = new Auth.User();
+
+    @state()
+    userid: string = "guest";
 
     _authObserver = new Observer<Auth.Model>(
         this,
@@ -21,27 +23,10 @@ export class HomeViewElement extends View<Model, Msg> {
     connectedCallback() {
         super.connectedCallback();
         this._authObserver.observe(({ user }) => {
-          if (user) {
-            this._user = user;
+          if (user && user.username != this.userid) {
+            this.userid = user.username;
           }
-          this.hydrate(this.src);
         });
-      }
-
-      hydrate(url: string) {
-        fetch(url, {
-          headers: Auth.headers(this._user)
-        })
-          .then((res: Response) => {
-            if (res.status === 200) return res.json();
-            throw `Server responded with status ${res.status}`;
-          })
-          .catch((err) =>
-            console.log("Failed to load main data:", err)
-          )
-          .catch((err) =>
-            console.log("Failed to convert main data:", err)
-          );
       }
 
     render() {
@@ -52,7 +37,7 @@ export class HomeViewElement extends View<Model, Msg> {
           <img src="images/slo-guide.jpg" alt="Explore Restaurants in SLO">
           <p>Discover the best food and drink options in SLO, whether you're in the mood for meals, snacks, or beverages!</p>
           <p>SLO Food Guide from a <em>SLOCAL!</em></p>
-          <h2><a href="/app/guest/blaze" class="button">Explore Restaurants</a></h2>
+          <h2><a href="/app/guest/${this.userid}" class="button">Explore Restaurants</a></h2>
           <p>
             <svg class="icon">
               <use href="icons/food.svg#icon-utensils" />
