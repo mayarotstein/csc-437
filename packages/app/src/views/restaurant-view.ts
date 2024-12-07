@@ -172,18 +172,4 @@ export class RestaurantViewElement extends View<Model, Msg> {
     constructor() {
       super("slofoodguide:model");
     }
-  
-    attributeChangedCallback(
-      name: string,
-      old: string | null,
-      value: string | null
-    ) {
-      super.attributeChangedCallback(name, old, value);
-  
-      if (name === "userid" && old !== value && value)
-        this.dispatchMessage([
-          "profile/select",
-          { userid: value }
-        ]);
-    }
 }

@@ -27,14 +27,6 @@ export default function update(
           .catch((error: Error) => {
             const { onFailure } = message[1];
             if (onFailure) onFailure(error);
-          })
-        .then(() => {
-            const { onSuccess } = message[1];
-            if (onSuccess) onSuccess();
-          })
-          .catch((error: Error) => {
-            const { onFailure } = message[1];
-            if (onFailure) onFailure(error);
           });
         break;
     default:

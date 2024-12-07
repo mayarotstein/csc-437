@@ -1,10 +1,10 @@
 import { LitElement, css, html } from "lit";
-import { define, Form, Observer, Auth, View, InputArray } from "@calpoly/mustang";
+import { define, Form, Observer, Auth} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
-import { property } from "lit/decorators.js";
+//import { property } from "lit/decorators.js";
 import { Guest } from "server/models";
-import { Msg } from "../messages";
-import { Model } from "../model";
+//import { Msg } from "../messages";
+//import { Model } from "../model";
 
 export class GuestProfile extends LitElement {
     
@@ -18,8 +18,9 @@ export class GuestProfile extends LitElement {
 
     @state()
     guest?: Guest;
+    
     @state()
-    editMode = false;
+    userid: string = "guest";
 
 
     render() {
@@ -27,28 +28,25 @@ export class GuestProfile extends LitElement {
       const {
         username, favoritemeal, nickname, partysize} = this.guest || {};
       
-        console.log(this.guest)
-      return this.editMode
-          ? html`<edit-guest-profile .guest=${this.guest}></edit-guest-profile>`
-          : html`
-          <section class="view">
+        return html`
+          <section class="profile">
             <h2>Your Profile</h2>
             <p>Username: ${username}</p>
             <img src=${favoritemeal} alt="Favorite Meal" />
             <p>Nickname: ${nickname}</p>
             <p>Party Size: ${partysize}</p>
-            <button id="edit" class="button" @click=${this.toggleEditMode}>Edit</button>
+            <a href="/app/guest/edit/${this.userid}" class="button">Edit Profile</a>
           </section>
         `;
-      ;}
-
-      toggleEditMode() {
-        this.editMode = !this.editMode;
       }
+
 
       connectedCallback() {
         super.connectedCallback();
         this._authObserver.observe(({ user }) => {
+          if (user && user.username != this.userid) {
+            this.userid = user.username;
+          }
           if (user) {
           this._user = user;}
           if (this.src && this.mode !== "new") {
@@ -100,7 +98,7 @@ export class GuestProfile extends LitElement {
       border-radius: var(--img-border-radius);
     }
 
-    button {
+    .button {
       display: inline-block;
       padding: var(--size-spacing-medium);
       font-size: var(--size-type-medium);
@@ -114,7 +112,7 @@ export class GuestProfile extends LitElement {
       transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    .button:hover {
       background-color: var(--color-button-hover);
     }
   `;
