@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/styles/tokens.css">
+        <link rel="stylesheet" href="/styles/page.css">
+        
+        <script type="importmap">
+            {
+              "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+              }
+            }
+        </script>
+        <script type="module">
+            import { define, Auth, Events } from "@calpoly/mustang";
+            import { SloFoodHeaderElement } from "/src/components/slofood-header";
+          
+            define({
+                "slo-food-header": SloFoodHeaderElement,
+                "mu-auth": Auth.Provider
+            });
+            window.relayEvent = Events.relay;
+
+            document.addEventListener("DOMContentLoaded", () => {
+            const slofoodHeader = document.querySelector("slo-food-header");
+        });
+        </script>
+        <script type="module" src="/src/main"></script>
+    </head>
+    <body class="page">
+        <mu-history provides="slofoodguide:history">
+            <mu-auth provides="slofoodguide:auth" redirect="/login">
+                <mu-store provides="slofoodguide:model">
+                    <slo-food-header></slo-food-header>
+                    <section>
+                        <slofoodguide-app></slofoodguide-app>
+                    </section>
+                </mu-store>
+            </mu-auth>
+        </mu-history>
+    </body>
+</html>

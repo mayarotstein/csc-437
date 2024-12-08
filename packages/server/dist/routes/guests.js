@@ -39,7 +39,7 @@ router.get("/", (_, res) => {
 });
 router.get("/:userid", (req, res) => {
   const { userid } = req.params;
-  import_guest_svc.default.get(userid).then((traveler) => res.json(traveler)).catch((err) => res.status(404).send(err));
+  import_guest_svc.default.get(userid).then((guest) => res.json(guest)).catch((err) => res.status(404).send(err));
 });
 router.post("/", (req, res) => {
   const newGuest = req.body;
@@ -47,10 +47,10 @@ router.post("/", (req, res) => {
     (guest) => res.status(201).json(guest)
   ).catch((err) => res.status(500).send(err));
 });
-router.put("/:username", (req, res) => {
+router.put("/:userid", (req, res) => {
   const { userid } = req.params;
   const newGuest = req.body;
-  import_guest_svc.default.update(userid, newGuest).then((guest) => res.json(guest)).catch((err) => res.status(404).end());
+  import_guest_svc.default.update(userid, newGuest).then((guest) => res.json(guest)).catch((err) => res.status(404).send(err));
 });
 router.delete("/:userid", (req, res) => {
   const { userid } = req.params;

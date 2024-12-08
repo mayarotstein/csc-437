@@ -1,19 +1,40 @@
-import { css, html, shadow } from "@calpoly/mustang";
+//proto/public/scripts/slofoodheader.js
+import { css, html, shadow, Observer, Dropdown, define, Events } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 
 export class SloFoodHeaderElement extends HTMLElement {
+    static uses = define({
+      "mu-dropdown": Dropdown.Element
+    });
+
     static template = html`
         <template>
             <header>
-                <h1><slot name="title">San Luis Obispo Food Guide</slot></h1>
-                <nav>
+            <h1><a class="title" href="/">San Luis Obispo Food Guide</a></h1>
+              <nav>
                     <slot name="nav"></slot>
                 </nav>
-                <label>
-                    <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
-                    <slot name="dark-mode"></slot>
-                </label>
+                <mu-dropdown>
+                  <a slot="actuator">
+                    Hello,
+                    <span id="userid"></span>
+                  </a>
+                    <menu>
+                      <li>
+                        <label>
+                          <input type="checkbox" id="dark-mode-toggle" autocomplete="off"/>
+                          <slot name="dark-mode"></slot>
+                        </label>
+                      </li>
+                      <li class="when-signed-in">
+                        <a id="signout">Sign Out</a>
+                      </li>
+                      <li class="when-signed-out">
+                        <a href="/login">Sign In</a>
+                      </li>
+                    </menu>
+                </mu-dropdown>
             </header>
         </template>
   `;
@@ -28,6 +49,10 @@ export class SloFoodHeaderElement extends HTMLElement {
         background-color: var(--color-background-header);
         color: var(--color-text-header);
         }
+    .title {
+      text-decoration: none;
+      color: currentColor;
+    }
 
     h1 {
         flex-basis: 100%;
@@ -46,7 +71,25 @@ export class SloFoodHeaderElement extends HTMLElement {
           padding: 0.25em;
         }
     }
+
+    a[slot="actuator"] {
+      color: var(--color-link-inverted);
+      cursor: pointer;
+    }
+
+    #userid:empty::before {
+      content: "Guest";
+    }
+    menu {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: underline;
+    }
     
+    a:has(#userid:empty) ~ menu > .when-signed-in,
+    a:has(#userid:not(:empty)) ~ menu > .when-signed-out {
+      display: none;
+    }
   `;
 
   constructor() {
@@ -60,6 +103,12 @@ export class SloFoodHeaderElement extends HTMLElement {
         toggle.addEventListener("change", (event) => {
             relayEvent(event, "darkmode:toggle", { checked: event.target.checked });
         });
+      this._userid = this.shadowRoot.querySelector("#userid");
+      this._signout = this.shadowRoot.querySelector("#signout");
+
+      this._signout.addEventListener("click", (event) =>
+        Events.relay(event, "auth:message", ["auth/signout"])
+      );
   }
   
   static initializeOnce() {
@@ -70,6 +119,30 @@ export class SloFoodHeaderElement extends HTMLElement {
     document.body.addEventListener("darkmode:toggle", (event) =>
       toggleDarkMode(event.currentTarget, event.detail.checked)
     );
+  }
+
+  _authObserver = new Observer(this, "slofoodguide:auth");
+
+  connectedCallback() {
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+      }
+    });
+  }
+
+    get userid() {
+    return this._userid.textContent;
+  }
+
+  set userid(id) {
+    if (id === "anonymous") {
+      this._userid.textContent = "";
+      this._signout.disabled = true;
+    } else {
+      this._userid.textContent = id;
+      this._signout.disabled = false;
+    }
   }
 }
 

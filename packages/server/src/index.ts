@@ -5,6 +5,13 @@ import { getRestaurant, getHeaderData } from "./services/restaurant-svc";
 import { connect } from "./services/mongo";
 import Guests from "./services/guest-svc";
 import guests from "./routes/guests";
+import auth, { authenticateUser } from "./routes/auth";
+import { LoginPage, RegistrationPage } from "./pages/auth";
+import { getFile, saveFile } from "./services/filesystem";
+import fs from "node:fs/promises";
+import path from "path";
+
+
 
 
 connect("slofoodguide");
@@ -16,11 +23,22 @@ console.log(staticDir)
 app.use(express.static(staticDir));
 
 // Middleware:
+app.use(express.raw({ type: "image/*", limit: "32Mb" }));
 app.use(express.json());
 
-app.use("/api/guests", guests);
+//Auth Routes
+app.use("/auth", auth);
+
+//API Routes
+app.use("/api/guests", authenticateUser, guests);
 
 
+// Images routes
+app.post("/images", saveFile);
+app.get("/images/:id", getFile);
+
+
+//Page Routes 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");
 });
@@ -43,6 +61,26 @@ app.get(
   }
 );
 
+
+app.get("/login", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
+app.get("/register", (req: Request, res: Response) => {
+  const page = new RegistrationPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
+// SPA Routes: /app/...
+app.use("/app", (req: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) =>
+    res.send(html)
+  );
+});
+
+//Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

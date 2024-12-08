@@ -16,7 +16,7 @@ router.get("/:userid", (req: Request, res: Response) => {
     const { userid } = req.params;
   
     Guests.get(userid)
-      .then((traveler: Guest) => res.json(traveler))
+      .then((guest: Guest) => res.json(guest))
       .catch((err) => res.status(404).send(err));
   });
 
@@ -30,14 +30,14 @@ router.get("/:userid", (req: Request, res: Response) => {
       .catch((err) => res.status(500).send(err));
   });
 
-  router.put("/:username", (req: Request, res: Response) => {
+  router.put("/:userid", (req: Request, res: Response) => {
     const { userid } = req.params;
     const newGuest = req.body;
-  
+
     Guests
       .update(userid, newGuest)
       .then((guest: Guest) => res.json(guest))
-      .catch((err) => res.status(404).end());
+      .catch((err) => res.status(404).send(err));
   });
 
   router.delete("/:userid", (req: Request, res: Response) => {

@@ -30,15 +30,12 @@ const defaults = {
   ],
   styles: [],
   scripts: [
-    `import { define } from "@calpoly/mustang";
+    `import { define, Auth, Observer } from "@calpoly/mustang";
     import { SloFoodHeaderElement } from "/scripts/slofoodheader.js";
-    import { GuestProfile } from "/scripts/guest.js";
 
     define({
-      "slo-food-header": SloFoodHeaderElement
-    });
-      define({
-      "guest-profile": GuestProfile
+      "slo-food-header": SloFoodHeaderElement,
+      "mu-auth": Auth.Provider
     });
 
     SloFoodHeaderElement.initializeOnce();

@@ -62,27 +62,29 @@ class RestaurantPage {
     return import_server.html`
       <body>
       <main class="page">
-        <slo-food-header>
-          ${links}
-          <span slot="dark-mode"> Dark Mode ${darkModeLabel}</span>
-      </slo-food-header>
-        <section class="restaurant">
-          <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
-          <guest-profile src="${api}">
-          </guest-profile>
-          <div class="card">
-            <h2 slot="category">${category}</h2>
-            <img
-              slot="image"
-              src="${image.src}"
-              alt="${image.alt}"
-              width="${image.width}"
-              height="${image.height}"
-            />
-          <p>${description}</p>
-          <a class="button" slot="link" href="${link}">Visit Website</a>
-          </div>
-        </section>
+        <mu-auth provides="slofoodguide:auth">
+          <slo-food-header>
+            ${links}
+            <span slot="dark-mode"> Dark Mode ${darkModeLabel}</span>
+        </slo-food-header>
+          <section class="restaurant">
+            <h1 slot="title">Best Restaurants in San Luis Obispo</h1>
+            <guest-profile src="${api}">
+            </guest-profile>
+            <div class="card">
+              <h2 slot="category">${category}</h2>
+              <img
+                slot="image"
+                src="${image.src}"
+                alt="${image.alt}"
+                width="${image.width}"
+                height="${image.height}"
+              />
+            <p>${description}</p>
+            <a class="button" slot="link" href="${link}">Visit Restaurants</a>
+            </div>
+          </section>
+        </mu-auth>
       </main>
     </body>`;
   }
