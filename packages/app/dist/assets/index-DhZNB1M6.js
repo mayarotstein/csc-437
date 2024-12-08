@@ -778,7 +778,7 @@ Expecting `+Pt.join(", ")+", got '"+(this.terminals_[$]||$)+"'":Gt="Parse error 
         color: var(--color-text-h1);
     
     }
-    `];let ce=Oe;var nn=Object.defineProperty,on=Object.getOwnPropertyDescriptor,ke=(r,t,e,s)=>{for(var i=s>1?void 0:s?on(t,e):t,n=r.length-1,o;n>=0;n--)(o=r[n])&&(i=(s?o(t,e,i):o(i))||i);return s&&i&&nn(t,e,i),i};const Dt=class Dt extends Et{get profile(){return this.model.profile}_handleSubmit(t){console.log("Form submission details:",t.detail);const e=this.userid||"";this.dispatchMessage(["profile/save",{userid:e,profile:t.detail,onSuccess:()=>{As.dispatch(this,"history/navigate",{href:`/app/guest/${this.userid}`})},onFailure:s=>{console.error("ERROR:",s)}}])}render(){return w`
+    `];let ce=Oe;var nn=Object.defineProperty,on=Object.getOwnPropertyDescriptor,ke=(r,t,e,s)=>{for(var i=s>1?void 0:s?on(t,e):t,n=r.length-1,o;n>=0;n--)(o=r[n])&&(i=(s?o(t,e,i):o(i))||i);return s&&i&&nn(t,e,i),i};const Dt=class Dt extends Et{get profile(){return this.model.profile}_handleSubmit(t){const e=this.userid||"";this.dispatchMessage(["profile/save",{userid:e,profile:t.detail,onSuccess:()=>{As.dispatch(this,"history/navigate",{href:`/app/guest/${this.userid}`})},onFailure:s=>{console.error("ERROR:",s)}}])}render(){return w`
         <section class="edit-profile">
           <h2 class="main">Edit Your Profile</h2>
           <div class="card">
