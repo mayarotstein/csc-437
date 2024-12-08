@@ -28,7 +28,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var auth_exports = {};
 __export(auth_exports, {
-  LoginPage: () => LoginPage
+  LoginPage: () => LoginPage,
+  RegistrationPage: () => RegistrationPage
 });
 module.exports = __toCommonJS(auth_exports);
 var import_renderPage = __toESM(require("./renderPage"));
@@ -105,18 +106,16 @@ class LoginPage {
               <article>
                 <slo-food-header></slo-food-header>
                 <main class="page">
-                <div class="card">
                   <login-form api="/auth/login">
                     <h2 slot="title">Sign in and get tasting!</h3>
                   </login-form>
                   <p class="register">
                     Or did you want to
-                    <a href="./register">
+                    <a href="/register">
                       register as a new user
                     </a>
                     ?
                   </p>
-                </div>
                 </main>
               </article>
             </mu-auth>
@@ -125,7 +124,94 @@ class LoginPage {
     });
   }
 }
+class RegistrationPage {
+  render() {
+    return (0, import_renderPage.default)({
+      scripts: [
+        `
+          import { define, Auth } from "@calpoly/mustang";
+          import { RegistrationForm } from "/scripts/registration-form.js";
+  
+          define({
+            "mu-auth": Auth.Provider,
+            "registration-form": RegistrationForm
+          })
+          `
+      ],
+      styles: [
+        import_server.css`
+          .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border: var(--card-border-color);
+            border-radius: var(--card-border-radius);
+            padding: var(--size-spacing-medium);
+            background-color: var(--card-background-color);
+            gap: var(--size-spacing-medium);
+            flex-grow: 1;
+            }
+        
+            h2{
+                font-family: var(--font-family-display);
+                font-size: var(--size-type-large);
+                font-weight: var(--font-weight-normal);
+            }
+        
+            p {
+                font-size: var(--size-type-medium);
+            }
+        
+            img {
+                width: 100vw;
+                height: 400px;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+                border-radius: var(--img-border-radius);
+            }
+        
+            .button {
+              display: inline-block;
+              padding: var(--size-spacing-medium);
+              font-size: var(--size-type-medium);
+              font-family: var(--font-family-display);
+              background-color: var(--color-button-background);
+              color: var(--color-button-text);
+              border-radius: var(--card-border-radius);
+              text-decoration: none;
+              text-align: center;
+              border: none;
+              transition: background-color 0.3s ease;
+          }
+        
+          .button:hover {
+            background-color: var(--color-button-hover);
+          }
+          `
+      ],
+      body: import_server.html`<body>
+          <mu-auth provides="slofoodguide:auth">
+            <article>
+              <slo-food-header> </slo-food-header>
+              <main class="page">
+                <registration-form api="/auth/register">
+                  <h2 slot="title">
+                    Sign up to plan your next dining experience!</h2>
+                </registration-form>
+                <p class="login">
+                  Already signed up? You can
+                  <a href="./login">log in</a> instead.
+                </p>
+              </main>
+            </article>
+          </mu-auth>
+        </body> `
+    });
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  LoginPage
+  LoginPage,
+  RegistrationPage
 });

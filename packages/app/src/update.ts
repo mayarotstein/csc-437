@@ -72,6 +72,7 @@ function selectProfile(
       body: JSON.stringify(msg.profile)
     })
       .then((response: Response) => {
+        console.log("Response status:", response.status);
         if (response.status === 200) return response.json();
         else
           throw new Error(

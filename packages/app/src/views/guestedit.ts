@@ -28,6 +28,7 @@ export class GuestEdit extends View<Model, Msg> {
 
   _handleSubmit(event: Form.SubmitEvent<Guest>) {
     const userId = this.userid || "";
+    
 
     this.dispatchMessage([
       "profile/save",
@@ -59,7 +60,7 @@ export class GuestEdit extends View<Model, Msg> {
               @mu-form:submit=${this._handleSubmit}>
               <label>
                 <h2><span>Username</span></h2>
-                <input disabled name="username"</input>
+                <input name="username"</input>
               </label>
               <label>
                 <h2><span>Favorite Meal</span></h2>

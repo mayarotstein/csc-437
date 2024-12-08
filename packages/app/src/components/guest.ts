@@ -1,10 +1,7 @@
 import { LitElement, css, html } from "lit";
 import { define, Form, Observer, Auth} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
-//import { property } from "lit/decorators.js";
 import { Guest } from "server/models";
-//import { Msg } from "../messages";
-//import { Model } from "../model";
 
 export class GuestProfile extends LitElement {
     

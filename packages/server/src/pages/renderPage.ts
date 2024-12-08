@@ -17,7 +17,6 @@ const defaults = {
 
     define({
       "slo-food-header": SloFoodHeaderElement,
-      "guest-profile": GuestProfile,
       "mu-auth": Auth.Provider
     });
 

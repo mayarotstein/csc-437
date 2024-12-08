@@ -64,6 +64,10 @@ app.get("/login", (req, res) => {
   const page = new import_auth2.LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
+app.get("/register", (req, res) => {
+  const page = new import_auth2.RegistrationPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
 app.use("/app", (req, res) => {
   const indexHtml = import_path.default.resolve(staticDir, "index.html");
   import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(

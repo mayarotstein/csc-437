@@ -11,8 +11,8 @@ export class SloFoodHeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header>
-                <h1><slot name="title">San Luis Obispo Food Guide</slot></h1>
-                <nav>
+            <h1><a class="title" href="/">San Luis Obispo Food Guide</a></h1>
+              <nav>
                     <slot name="nav"></slot>
                 </nav>
                 <mu-dropdown>
@@ -50,6 +50,10 @@ export class SloFoodHeaderElement extends HTMLElement {
         color: var(--color-text-header);
         }
 
+    .title {
+      text-decoration: none;
+      color: currentColor;
+    }
     h1 {
         flex-basis: 100%;
         font-family: var(--font-family-display);

@@ -6,7 +6,7 @@ import { connect } from "./services/mongo";
 import Guests from "./services/guest-svc";
 import guests from "./routes/guests";
 import auth, { authenticateUser } from "./routes/auth";
-import { LoginPage } from "./pages/auth";
+import { LoginPage, RegistrationPage } from "./pages/auth";
 import { getFile, saveFile } from "./services/filesystem";
 import fs from "node:fs/promises";
 import path from "path";
@@ -64,6 +64,11 @@ app.get(
 
 app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
+app.get("/register", (req: Request, res: Response) => {
+  const page = new RegistrationPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
 
