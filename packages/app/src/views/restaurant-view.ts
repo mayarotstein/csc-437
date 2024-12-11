@@ -1,12 +1,10 @@
 import { define, View } from "@calpoly/mustang";
 import { css, html } from "lit";
-import { state } from "lit/decorators.js";
 import reset from "../../public/styles/reset.css.ts";
 import { GuestProfile } from "../components/guest.ts";
 import { property } from "lit/decorators.js";
 import { Msg } from "../messages";
 import { Model } from "../model";
-import { Guest } from "server/models";
 
 export class RestaurantViewElement extends View<Model, Msg> {
 
@@ -21,10 +19,6 @@ export class RestaurantViewElement extends View<Model, Msg> {
     @property({attribute: "guest-id"})
     guestId?: string;
 
-    @state()
-    get profile(): Guest | undefined {
-      return this.model.profile;
-    }
 
     render() {
 
@@ -168,7 +162,6 @@ export class RestaurantViewElement extends View<Model, Msg> {
           }
       }`
     ];
-
     constructor() {
       super("slofoodguide:model");
     }

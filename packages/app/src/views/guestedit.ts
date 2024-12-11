@@ -27,7 +27,7 @@ export class GuestEdit extends View<Model, Msg> {
 
 
   _handleSubmit(event: Form.SubmitEvent<Guest>) {
-    const userId = this.userid || "";
+    const userId = this.profile?.username || "";
     
 
     this.dispatchMessage([
@@ -56,7 +56,7 @@ export class GuestEdit extends View<Model, Msg> {
           <h2 class="main">Edit Your Profile</h2>
           <div class="card">
             <mu-form
-              init=${this.profile}
+              .init=${this.profile}
               @mu-form:submit=${this._handleSubmit}>
               <label>
                 <h2><span>Username</span></h2>
@@ -65,7 +65,7 @@ export class GuestEdit extends View<Model, Msg> {
               <label>
                 <h2><span>Favorite Meal</span></h2>
                 <input
-                  name="favoritemeal"
+                  name="_favoritemeal"
                   type="file"
                   @change=${this.handleFavoritemealSelected} />
               </label>
@@ -178,5 +178,9 @@ export class GuestEdit extends View<Model, Msg> {
         "profile/select",
         { userid: value }
       ]);
+  }
+  
+  constructor() {
+    super("slofoodguide:model");
   }
 }

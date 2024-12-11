@@ -1,9 +1,11 @@
-import { LitElement, css, html } from "lit";
-import { define, Form, Observer, Auth} from "@calpoly/mustang";
+import { css, html } from "lit";
+import { define, Form, Observer, Auth, View} from "@calpoly/mustang";
 import { state } from "lit/decorators.js";
 import { Guest } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
 
-export class GuestProfile extends LitElement {
+export class GuestProfile extends View<Model, Msg> {
     
     _user = new Auth.User();
     _authObserver = new Observer<Auth.Model> (this, "slofoodguide:auth");
@@ -19,11 +21,16 @@ export class GuestProfile extends LitElement {
     @state()
     userid: string = "guest";
 
+    @state()
+    get profile(): Guest | undefined {
+      return this.model.profile;
+    }
+
 
     render() {
 
       const {
-        username, favoritemeal, nickname, partysize} = this.guest || {};
+        username, favoritemeal, nickname, partysize} = this.profile || {};
       
         return html`
           <section class="profile">
@@ -38,7 +45,7 @@ export class GuestProfile extends LitElement {
       }
 
 
-      connectedCallback() {
+     connectedCallback() {
         super.connectedCallback();
         this._authObserver.observe(({ user }) => {
           if (user && user.username != this.userid) {
@@ -46,11 +53,12 @@ export class GuestProfile extends LitElement {
           }
           if (user) {
           this._user = user;}
-          if (this.src && this.mode !== "new") {
-            this.hydrate(this.src);
-          }
+          this.dispatchMessage([
+            "profile/select",
+            { userid: this.userid }
+          ]);
         });
-      }
+      }/*
 
       hydrate(url: string) {
         fetch(url, {
@@ -66,7 +74,7 @@ export class GuestProfile extends LitElement {
           .catch((error) => {
             console.error(`Failed to render data from ${url}:`, error);
           });
-      }
+      }*/
 
 
   static styles = css`
@@ -136,11 +144,15 @@ export class GuestProfile extends LitElement {
     ) || null;
   }
 
-  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+  /*attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+    super.attributeChangedCallback(name, oldValue, newValue);
     if (name === "src" && oldValue !== newValue && this.mode !== "new") {
-      this.hydrate(newValue as string);
+      this.dispatchMessage([
+        "profile/select",
+        { userid: newValue }
+      ]);
     }
-  }
+  }*/
 
 
   /*handleFavoritemealSelected(event: Event) {
@@ -157,5 +169,9 @@ export class GuestProfile extends LitElement {
 
   _favoritemeal?: string;
 }*/
+
+constructor() {
+  super("slofoodguide:model");
+}
 
 }
