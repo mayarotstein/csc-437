@@ -63,6 +63,7 @@ function selectProfile(
     },
     user: Auth.User
   ) {
+    console.log("saveProfile", msg.profile)
     return fetch(`/api/guests/${msg.userid}`, {
       method: "PUT",
       headers: {
